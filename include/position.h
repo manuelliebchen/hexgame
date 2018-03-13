@@ -12,6 +12,11 @@ struct Position {
     y = 0;
   };
 
+  Position( int pos[2]) {
+    x = pos[0];
+    y = pos[1];
+  };
+
   Position( int _x, int _y) {
     x = _x;
     y = _y;
@@ -22,6 +27,12 @@ struct Position {
     y = pos.y;
   };
 
+  Position operator= ( int pos[2]) {
+    x = pos[0];
+    y = pos[1];
+    return (*this);
+  };
+
   bool operator== ( const Position& pos) const {
     return x == pos.x && y == pos.y;
   }
@@ -30,10 +41,14 @@ struct Position {
     return !((*this) == pos);
   }
 
-  bool operator< ( const Position& pos) const {
-    return x < pos.x && y < pos.y;
-  }
-
   friend std::ostream& operator<< (std::ostream& os, const Position& position);
 };
+
+inline
+std::ostream&
+operator<< (std::ostream& os, const Position& position) {
+  os << "(" << position.x << "," << position.y << ")";
+  return os;
+}
+
 #endif

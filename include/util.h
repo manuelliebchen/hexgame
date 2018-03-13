@@ -6,6 +6,7 @@
 #define PHI (2.39996f)
 #define INV_PI (0.318309f)
 #define three_sqrt_half (0.866025f)
+#define tile_size (vec2( three_sqrt_half, 0.75f))
 
 #include "vec2.h"
 #include <cmath>

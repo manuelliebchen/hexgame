@@ -13,7 +13,6 @@ set( SOURCE
   ${SRC_DIR}/tile.cpp
   ${SRC_DIR}/util.cpp
   ${SRC_DIR}/vec2.cpp
-  ${SRC_DIR}/position.cpp
 )
 
 include_directories(
