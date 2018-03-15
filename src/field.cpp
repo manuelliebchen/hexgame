@@ -35,24 +35,18 @@ Field::~Field() {
   delete[] tiles;
 }
 
-void Field::draw() const {
+void Field::draw( vec2 translation) const {
   for( int i = (size[0] * size[1]) -1; i >= 0; --i) {
-    glPushMatrix();
-      vec2 vector = getVectorPosition( tiles + i);
-      glTranslatef( vector.x, vector.y, 0);
-      tiles[i].draw( color_map);
-    glPopMatrix();
+    vec2 vector = getVectorPosition( tiles + i) + translation;
+    tiles[i].draw( vector, color_map);
   }
 }
 
 void
-Field::mark(std::vector<Tile*> path) const {
+Field::mark( vec2 translation, std::vector<Tile*> path) const {
     for( Tile* tile : path) {
-      glPushMatrix();
-        vec2 vector = getDrawingPosition( tile);
-        glTranslatef( vector.x, vector.y, 0);
-        tile->mark();
-      glPopMatrix();
+      vec2 vector = getDrawingPosition( tile) + translation;
+      tile->mark(vector);
     }
 }
 
@@ -118,7 +112,8 @@ Field::smoothen( std::vector<Tile*> to_smooth) {
 void
 Field::forestify( unsigned amount){
   for( unsigned i = 0; i < size[0] * size[1]; ++i) {
-    if( tiles[i].getHeight() > 0) {
+    int height = tiles[i].getHeight();
+    if( height > 1 && height <= 7) {
       tiles[i].clear();
       if( randf() > 0.7f) {
         tiles[i].plant();
@@ -130,10 +125,14 @@ Field::forestify( unsigned amount){
     for( unsigned i = 0; i < size[0] * size[1]; ++i) {
       int bushes = 0;
       int land_tile = 0;
+      int tile_height = tiles[i].getHeight();
+      if( tile_height <= 1 || tile_height > 7) {
+        continue;
+      }
       std::vector<Tile*> neighbors = getSurounding( tiles + i);
       for( Tile* neighbor : neighbors){
         int height = neighbor->getHeight();
-        if( height > 0) {
+        if( height > 1 && height <= 7) {
           ++land_tile;
         }
 

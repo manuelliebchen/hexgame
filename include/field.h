@@ -41,8 +41,8 @@ public:
   void smoothen( std::vector<Tile*> to_smooth);
   void forestify( unsigned amount);
 
-  void draw() const;
-  void mark(std::vector<Tile*> path) const;
+  void draw( vec2 translation) const;
+  void mark( vec2 translation, std::vector<Tile*> path) const;
 
   unsigned getDistance( Position start, Position destination) const;
   std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;

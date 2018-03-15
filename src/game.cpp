@@ -19,10 +19,10 @@ Game::Game( int* argc, char ** argv, vec2 size) :
 {
   if( (*argc) >= 2) {
     if( argv[1] == std::string("flat")) {
-      field = new Field( 50, 50);
+      field = new Field( 70, 70);
     }
   } else {
-    field = new Field( 100, 100, 50, 10);
+    field = new Field( 70, 70, 50, 10);
   }
 
   display_position = vec2(-0.5f * field->getSize()[0] * tile_size.x, -0.5f * field->getSize()[1] * tile_size.y);
@@ -53,6 +53,8 @@ Game::Game( int* argc, char ** argv, vec2 size) :
   glutMouseFunc(&mouseCallback);
   glutMotionFunc(&mousemotionCallback);
   glutPassiveMotionFunc(&passivmotionCallback);
+
+  reloadMatrix();
 }
 
 Game::~Game() {
@@ -64,24 +66,15 @@ void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glClearColor( 20/256.0f, 59/256.0f, 122/256.0f, 1.0f);
-      // color_map[-256] = Color( 20,  59,122);
-    // glClearColor( 37/256.0f, 92/256.0f, 150/256.0f, 1.0f);
-    glPushMatrix();
-      window_size = vec2( glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
-      glOrtho( -0.5 * window_size.x, 0.5 * window_size.x, -0.5 * window_size.y, 0.5 * window_size.y, 1, -1);
-      glScalef( zoom, zoom, 1);
-      glTranslatef( display_position.x, display_position.y, 0);
 
-      field->draw();
+    field->draw(display_position);
 
-      glColor4f( 0.0, 0.75f, 1.0, 0.5f);
-      field->mark( second_surounding);
-      glColor4f( 1.0, 0.75f, 0.0, 0.5f);
-      field->mark( surounding);
-      glColor4f( 0.0, 0.0f, 1.0, 0.5f);
-      field->mark( path);
-
-    glPopMatrix();
+    glColor4f( 0.0, 0.75f, 1.0, 0.5f);
+    field->mark( display_position, second_surounding);
+    glColor4f( 1.0, 0.75f, 0.0, 0.5f);
+    field->mark( display_position, surounding);
+    glColor4f( 0.0, 0.0f, 1.0, 0.5f);
+    field->mark( display_position, path);
 
     glutSwapBuffers();
 }
@@ -106,13 +99,16 @@ void Game::mouse(int button, int state, int x, int y){
   if( state == GLUT_UP) {
     if( button == GLUT_LEFT_BUTTON) {
       display_position += (vec2(x,-y) - click_position) * (float)( 1/zoom);
+      reloadMatrix();
     } else if( button == 3){
-     if( state == GLUT_DOWN) return;
-     zoom *= 2;
+      if( state == GLUT_DOWN) return;
+      zoom *= 2;
+      reloadMatrix();
     } else if( button == 4) {
-     if( state == GLUT_DOWN) return;
-     zoom /= 2;
-   }
+      if( state == GLUT_DOWN) return;
+      zoom /= 2;
+      reloadMatrix();
+    }
  } else if( state == GLUT_DOWN) {
    click_position = vec2(x,-y);
    vec2 mouse_position = getFieldPosition( x,y);
@@ -142,14 +138,22 @@ void Game::mouse(int button, int state, int x, int y){
      } else if( button == 8) {
        field->raise( tile, 2);
      }
-     if( selected && second_selected) {
-       path = field->findPath( selected, second_selected);
+     if( selected) {
+       path = field->findPath( selected, tile);
        surounding = field->findSurounding( selected, TURN_WALKING_DISTANCE);
        second_surounding = field->findSurounding( selected, 2 * TURN_WALKING_DISTANCE);
      }
    }
   }
   glutPostRedisplay();
+}
+
+void
+Game::reloadMatrix() {
+  glLoadIdentity();
+  window_size = vec2( glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+  glOrtho( -0.5 * window_size.x, 0.5 * window_size.x, -0.5 * window_size.y, 0.5 * window_size.y, 1, -1);
+  glScalef( zoom, zoom, 1);
 }
 
 void
@@ -164,9 +168,8 @@ Game::passivmouse( int x, int y) {
   vec2 mouse_position = getFieldPosition( x,y);
   Tile* tile = field->getTile( mouse_position);
   if( tile) {
-    second_selected = tile;
-    if( selected && second_selected) {
-      path = field->findPath( selected, second_selected);
+    if( selected) {
+      path = field->findPath( selected, tile);
       glutPostRedisplay();
     }
   }

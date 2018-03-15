@@ -9,7 +9,7 @@ class Figure {
 
 public:
   virtual ~Figure() {};
-  virtual void draw() = 0;
+  virtual void draw( vec2 position) = 0;
 };
 
 #endif

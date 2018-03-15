@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <ctime>
 
 #include "constants.h"
 #include "util.h"
@@ -33,7 +34,6 @@ private:
   Field * field;
 
   Tile * selected;
-  Tile * second_selected;
   std::vector<Tile*> path;
   std::vector<Tile*> surounding;
   std::vector<Tile*> second_surounding;
@@ -44,6 +44,7 @@ private:
   Game operator= (const Game&);
 
   vec2 getFieldPosition( int x, int y);
+  void reloadMatrix();
 
   static Game* game;
 

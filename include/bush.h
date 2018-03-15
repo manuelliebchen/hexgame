@@ -5,28 +5,27 @@
 
 class Bush : public Figure {
 public:
-  void draw(){
-    glPushMatrix();
+  void draw(vec2 position){
     glColor3f( (73)/256.0f, (28)/256.0f, (11)/256.0f);
     glBegin(GL_POLYGON);
       for( int i = 0; i < 6; ++i) {
-        glVertex( getHexCorner(i) * 0.15f);
+        glVertex( getHexCorner(i) * 0.15f + position);
       }
     glEnd();
-    glTranslatef( 0, 0.2f, 0);
     glColor3f( (25)/256.0f, (71)/256.0f, (7)/256.0f);
     glBegin(GL_POLYGON);
       for( int i = 0; i < 6; ++i) {
-        glVertex(getHexCorner(i) * 0.3f);
+        vec2 corner = getHexCorner(i) * 0.3f + position;
+        glVertex2f( corner.x, corner.y + 0.2f);
       }
     glEnd();
     glColor3f( (35)/256.0f, (81)/256.0f, (17)/256.0f);
     glBegin(GL_POLYGON);
       for( int i = 0; i < 6; ++i) {
-        glVertex(getHexCorner(i) * 0.2f);
+        vec2 corner = getHexCorner(i) * 0.2f + position;
+        glVertex2f( corner.x, corner.y + 0.2f);
       }
     glEnd();
-    glPopMatrix();
   };
 };
 

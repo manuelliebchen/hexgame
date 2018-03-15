@@ -35,8 +35,8 @@ public:
   int getHeight() const { return height;};
   bool isWalkable() const { return (height > 0 && !figure);};
 
-  void draw( const std::map<int,Color>& color_map) const;
-  void mark() const;
+  void draw( vec2 position, const std::map<int,Color>& color_map) const;
+  void mark( vec2 translation) const;
 
   void raise( int amount) {
     height += amount;
