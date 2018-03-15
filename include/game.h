@@ -1,16 +1,17 @@
 #ifndef _GAME_
 #define _GAME_
 
-#define SCROLL_SPEED 50
-
 #include <GL/glut.h>
 #include <iostream>
 #include <vector>
 #include <string>
 
+#include "constants.h"
 #include "util.h"
 #include "vec2.h"
 #include "field.h"
+#include "coin.h"
+#include "bush.h"
 
 class Game {
 public:
@@ -35,6 +36,7 @@ private:
   Tile * second_selected;
   std::vector<Tile*> path;
   std::vector<Tile*> surounding;
+  std::vector<Tile*> second_surounding;
 
   Game( int* argc, char ** argv, vec2 size);
   Game( const Game&);

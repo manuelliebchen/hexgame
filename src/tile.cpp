@@ -1,12 +1,10 @@
 #include "tile.h"
 
-Tile::Tile( Color _color, int _height) :
-  color( _color),
-  height( _height) {}
-
-void Tile::draw() {
+void Tile::draw( const std::map<int,Color>& color_map) const {
+  glPushMatrix();
+  Color color = (color_map.lower_bound( height)->second);
+  color = Color( color.red + color_variation.red,  color.green + color_variation.green,  color.blue + color_variation.blue);
   if( height > 0) {
-    glPushMatrix();
     glColor3f(color.red/256.0f * 0.5f, color.green/256.0f * 0.5f, color.blue/256.0f * 0.5f);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 3 ; ++i) {
@@ -19,44 +17,29 @@ void Tile::draw() {
     }
     glEnd();
     glTranslatef( 0, height * TILE_STEP_HEIGHT, 0);
-    glColor3f(color.red/256.0f * 0.8f, color.green/256.0f * 0.8f, color.blue/256.0f * 0.8f);
-    glBegin(GL_POLYGON);
-    for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i);
-      glVertex2f( corner.x * 0.5f, corner.y * 0.5f);
-    }
-    glEnd();
-    glColor3f(color.red/256.0f, color.green/256.0f, color.blue/256.0f);
-    glBegin(GL_POLYGON);
-    for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i);
-      glVertex2f( corner.x * 0.4f, corner.y * 0.4f);
-    }
-    glEnd();
-    if(figure) {
-      figure->draw();
-    }
-    glPopMatrix();
-  } else {
-    glColor3f( 20/ 256.0f, 59/256.0f, 122/256.0f);
-    glBegin(GL_POLYGON);
-    for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i);
-      glVertex2f( corner.x * 0.5f, corner.y * 0.5f);
-    }
-    glEnd();
-    glColor3f( 10/ 256.0f, 49/256.0f, 112/256.0f);
-    glBegin(GL_POLYGON);
-    for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i);
-      glVertex2f( corner.x * 0.4f, corner.y * 0.4f);
-    }
-    glEnd();
   }
+  glColor3f(color.red/256.0f * 0.8f, color.green/256.0f * 0.8f, color.blue/256.0f * 0.8f);
+  glBegin(GL_POLYGON);
+  for( unsigned i = 0; i < 6 ; ++i) {
+    vec2 corner = getHexCorner(i);
+    glVertex2f( corner.x * 0.5f, corner.y * 0.5f);
+  }
+  glEnd();
+  glColor3f(color.red/256.0f, color.green/256.0f, color.blue/256.0f);
+  glBegin(GL_POLYGON);
+  for( unsigned i = 0; i < 6 ; ++i) {
+    vec2 corner = getHexCorner(i);
+    glVertex2f( corner.x * 0.4f, corner.y * 0.4f);
+  }
+  glEnd();
+  if(figure) {
+    figure->draw();
+  }
+  glPopMatrix();
 }
 
 void
-Tile::mark() {
+Tile::mark() const {
   glPushMatrix();
   // glTranslatef( 0, height * TILE_STEP_HEIGHT, 0);
   glBegin(GL_POLYGON);

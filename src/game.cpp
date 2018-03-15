@@ -19,10 +19,10 @@ Game::Game( int* argc, char ** argv, vec2 size) :
 {
   if( (*argc) >= 2) {
     if( argv[1] == std::string("flat")) {
-      field = new Field( 50, 50, 0, 0);
+      field = new Field( 50, 50);
     }
   } else {
-    field = new Field( 50, 50, 50, 4);
+    field = new Field( 100, 100, 50, 10);
   }
 
   display_position = vec2(-0.5f * field->getSize()[0] * tile_size.x, -0.5f * field->getSize()[1] * tile_size.y);
@@ -32,7 +32,7 @@ Game::Game( int* argc, char ** argv, vec2 size) :
   char *glut_argv[1] = {(char*)"Something"};
   glutInit(&glut_argc, glut_argv);
 
-  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
   glutInitWindowSize( window_size.x, window_size.y);
 
@@ -61,9 +61,11 @@ Game::~Game() {
 
 void Game::draw() {
     // Black background
-    //glClearColor(1.0f,1.0f,1.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glClearColor( 20/256.0f, 59/256.0f, 122/256.0f, 1.0f);
+      // color_map[-256] = Color( 20,  59,122);
+    // glClearColor( 37/256.0f, 92/256.0f, 150/256.0f, 1.0f);
     glPushMatrix();
       window_size = vec2( glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
       glOrtho( -0.5 * window_size.x, 0.5 * window_size.x, -0.5 * window_size.y, 0.5 * window_size.y, 1, -1);
@@ -72,19 +74,30 @@ void Game::draw() {
 
       field->draw();
 
-      glColor4f( 1.0, 0.75f, 0.0, 0.75f);
-      field->drawPath( surounding);
-      glColor4f( 0.0, 0.0f, 1.0, 0.75f);
-      field->drawPath( path);
+      glColor4f( 0.0, 0.75f, 1.0, 0.5f);
+      field->mark( second_surounding);
+      glColor4f( 1.0, 0.75f, 0.0, 0.5f);
+      field->mark( surounding);
+      glColor4f( 0.0, 0.0f, 1.0, 0.5f);
+      field->mark( path);
+
     glPopMatrix();
 
-    glFlush();
+    glutSwapBuffers();
 }
 
 void Game::keyboard(unsigned char c, int x, int y){
   switch (c) {
     case 27:
       exit(0);
+      break;
+    case 's':
+      field->smoothen(1);
+      glutPostRedisplay();
+      break;
+    case 'f':
+      field->forestify(3);
+      glutPostRedisplay();
       break;
   }
 }
@@ -106,22 +119,33 @@ void Game::mouse(int button, int state, int x, int y){
    Tile* tile = field->getTile( mouse_position);
    if( tile) {
      if( button == GLUT_MIDDLE_BUTTON) {
-       Figure*& fig = tile->getFigure();
-       if( !fig ){
-         fig = new Figure();
-       } else {
-         fig = nullptr;
+       if( tile != selected) {
+         if( !tile->getFigure() ){
+           tile->plant();
+         } else {
+           tile->clear();
+         }
        }
      } else if( button == GLUT_RIGHT_BUTTON) {
-       selected = tile;
+       if( tile->isWalkable()) {
+         if( selected == tile) {
+           selected = nullptr;
+           path.clear();
+           surounding.clear();
+           second_surounding.clear();
+         } else {
+           selected = tile;
+         }
+       }
      } else if( button == 7) {
-       field->raise( tile, -1);
+       field->raise( tile, -2);
      } else if( button == 8) {
-       field->raise( tile, 1);
+       field->raise( tile, 2);
      }
      if( selected && second_selected) {
        path = field->findPath( selected, second_selected);
-       surounding = field->findSurounding( selected, 5);
+       surounding = field->findSurounding( selected, TURN_WALKING_DISTANCE);
+       second_surounding = field->findSurounding( selected, 2 * TURN_WALKING_DISTANCE);
      }
    }
   }

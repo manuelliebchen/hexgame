@@ -1,29 +1,54 @@
 #ifndef _TILE_
 #define _TILE_
 
-#define TILE_STEP_HEIGHT 0.1f
-
 #include <GL/glut.h>
+
+#include <map>
 
 #include "color.h"
 #include "figure.h"
+#include "bush.h"
+#include "coin.h"
 #include "vec2.h"
+#include "constants.h"
 
 class Tile {
-  Color color;
   Figure* figure;
+  Color color_variation;
   int height;
 
-public:
-  Tile() {};
-  ~Tile() { if( figure) delete figure;};
-  Tile( Color _color, int _height);
-  Figure*& getFigure() { return figure;};
-  void raise( int amount) { height += amount;};
-  int getHeight() { return height;};
+  Tile( const Tile& tile) = delete;
+  const Tile& operator= (const Tile& tile) = delete;
 
-  void draw();
-  void mark();
+public:
+  Tile() {
+    color_variation = Color( randf() * 16,randf() * 16, randf() * 16);
+    height = 1;
+    figure = nullptr;
+   };
+  ~Tile() { if( figure) delete figure;};
+  Figure*& getFigure() { return figure;};
+  void clear() {
+    delete figure;
+    figure = nullptr;
+  };
+  int getHeight() const { return height;};
+  bool isWalkable() const { return (height > 0 && !figure);};
+
+  void draw( const std::map<int,Color>& color_map) const;
+  void mark() const;
+
+  void raise( int amount) {
+    height += amount;
+    if( height <= 0) {
+      clear();
+    }
+  };
+  void plant() {
+    if( height > 0) {
+      figure = new Bush();
+    }
+  };
 };
 
 #endif
