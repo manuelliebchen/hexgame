@@ -19,10 +19,10 @@ Game::Game( int* argc, char ** argv, vec2 size) :
 {
   if( (*argc) >= 2) {
     if( argv[1] == std::string("flat")) {
-      field = new Field( 70, 70);
+      field = new Field( 50 * three_sqrt_half, 50);
     }
   } else {
-    field = new Field( 70, 70, 50, 10);
+    field = new Field( 50 * three_sqrt_half, 50, 50, 10);
   }
 
   display_position = vec2(-0.5f * field->getSize()[0] * tile_size.x, -0.5f * field->getSize()[1] * tile_size.y);
@@ -48,6 +48,8 @@ Game::Game( int* argc, char ** argv, vec2 size) :
   glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
   glEnable( GL_POLYGON_SMOOTH );
 
+  glClearColor( 20/256.0f, 59/256.0f, 122/256.0f, 1.0f);
+
   glutDisplayFunc(&drawCallback);
   glutKeyboardFunc(&keyboardCallback);
   glutMouseFunc(&mouseCallback);
@@ -65,15 +67,13 @@ void Game::draw() {
     // Black background
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glClearColor( 20/256.0f, 59/256.0f, 122/256.0f, 1.0f);
-
     field->draw(display_position);
 
-    glColor4f( 0.0, 0.75f, 1.0, 0.5f);
+    glColor4ub( 0, 192, 255, 128);
     field->mark( display_position, second_surounding);
-    glColor4f( 1.0, 0.75f, 0.0, 0.5f);
+    glColor4ub( 255, 192, 0, 128);
     field->mark( display_position, surounding);
-    glColor4f( 0.0, 0.0f, 1.0, 0.5f);
+    glColor4ub( 0, 0, 255, 128);
     field->mark( display_position, path);
 
     glutSwapBuffers();
@@ -112,7 +112,7 @@ void Game::mouse(int button, int state, int x, int y){
  } else if( state == GLUT_DOWN) {
    click_position = vec2(x,-y);
    vec2 mouse_position = getFieldPosition( x,y);
-   Tile* tile = field->getTile( mouse_position);
+   Tile* tile = field->estimatTile( mouse_position);
    if( tile) {
      if( button == GLUT_MIDDLE_BUTTON) {
        if( tile != selected) {
@@ -166,7 +166,7 @@ Game::mousemotion( int x, int y) {
 void
 Game::passivmouse( int x, int y) {
   vec2 mouse_position = getFieldPosition( x,y);
-  Tile* tile = field->getTile( mouse_position);
+  Tile* tile = field->estimatTile( mouse_position);
   if( tile) {
     if( selected) {
       path = field->findPath( selected, tile);

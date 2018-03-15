@@ -154,6 +154,76 @@ Field::forestify( unsigned amount){
   }
 }
 
+float
+Field::heuristic( Tile* start, Tile* end) const {
+  return three_sqrt_half_inv * (float) ( getVectorPosition(start) - getVectorPosition(end));
+}
+
+std::vector<Tile*>
+Field::getSurounding( Tile* tile) const {
+  Position pos = getPosition(tile);
+  std::vector<Position> surounding;
+  surounding.push_back( Position( pos.x -1, pos.y));
+  surounding.push_back( Position( pos.x +1, pos.y));
+  if( pos.y %2 == 0) {
+    surounding.push_back( Position( pos.x , pos.y-1));
+    surounding.push_back( Position( pos.x -1, pos.y-1));
+    surounding.push_back( Position( pos.x , pos.y+1));
+    surounding.push_back( Position( pos.x -1, pos.y+1));
+  } else {
+    surounding.push_back( Position( pos.x , pos.y-1));
+    surounding.push_back( Position( pos.x +1, pos.y-1));
+    surounding.push_back( Position( pos.x , pos.y+1));
+    surounding.push_back( Position( pos.x +1, pos.y+1));
+  }
+  std::vector<Tile*> neighbors;
+  for( Position neighbor : surounding){
+    if( Tile * tile = getTile( neighbor)){
+      neighbors.push_back(tile);
+    }
+  }
+  return neighbors;
+}
+
+Tile*
+Field::getTile( const Position& position) const {
+  if( position.x < 0 || position.x >= (int) size[0] || position.y < 0 || position.y >= (int) size[1]) {
+    return nullptr;
+  }
+  return tiles + position.x + size[0] * position.y;
+}
+
+Tile*
+Field::estimatTile( vec2 pos) const {
+  for( Tile* it = tiles; it != tiles + size[0]*size[1]; ++it) {
+    vec2 tile_position = getDrawingPosition( it);
+    if( (float) (pos - tile_position) < three_sqrt_half * 0.5f ) {
+      return it;
+    }
+  }
+  return nullptr;
+}
+
+Position
+Field::getPosition( const Tile* tile) const {
+  if( tile < tiles || tile > tiles + size[0]* size[1]) {
+    return Position(-1,-1);
+  }
+  unsigned tile_position = tile - tiles;
+  return Position( tile_position % size[0], tile_position / size[0]);
+}
+
+vec2
+Field::getVectorPosition( Tile* tile) const {
+  Position pos = getPosition( tile);
+  return vec2((pos.x + ( pos.y % 2 == 1 ? 0.25f : -0.25 ) + 0.5f) * tile_size.x, (pos.y + 0.5f) * tile_size.y);
+}
+
+vec2
+Field::getDrawingPosition( Tile* pos) const {
+  return getVectorPosition( pos) + (pos->getHeight() > 0 ? vec2( 0, pos->getHeight() * TILE_STEP_HEIGHT) : vec2());
+}
+
 std::vector<Tile*>
 Field::findPath( Tile* start_tile, Tile* destination_tile) const {
   if(heuristic(start_tile, destination_tile) > TURN_WALKING_DISTANCE * 5) {
@@ -162,8 +232,7 @@ Field::findPath( Tile* start_tile, Tile* destination_tile) const {
   if( !destination_tile->isWalkable()) {
     return std::vector<Tile*>();
   }
-  Position destination = getPosition(destination_tile);
-  vec2 destination_vec = getVectorPosition( destination);
+  vec2 destination_vec = getVectorPosition( destination_tile);
 
   //The Closed Nodes
   std::vector<Tile*> visited;
@@ -285,89 +354,4 @@ Field::findSurounding( Tile* start_tile, int n) const {
     }
   }
   return visited;
-}
-
-float
-Field::heuristic( Tile* start, Tile* end) const {
-  return three_sqrt_half_inv * (float) ( getVectorPosition(start) - getVectorPosition(end));
-}
-
-std::vector<Position>
-Field::getSurounding( Position pos) const {
-    std::vector< Position> surounding;
-    surounding.push_back( Position( pos.x -1, pos.y));
-    surounding.push_back( Position( pos.x +1, pos.y));
-    if( pos.y %2 == 0) {
-      surounding.push_back( Position( pos.x , pos.y-1));
-      surounding.push_back( Position( pos.x -1, pos.y-1));
-      surounding.push_back( Position( pos.x , pos.y+1));
-      surounding.push_back( Position( pos.x -1, pos.y+1));
-    } else {
-      surounding.push_back( Position( pos.x , pos.y-1));
-      surounding.push_back( Position( pos.x +1, pos.y-1));
-      surounding.push_back( Position( pos.x , pos.y+1));
-      surounding.push_back( Position( pos.x +1, pos.y+1));
-    }
-    return surounding;
-}
-
-std::vector<Tile*>
-Field::getSurounding( Tile* tile) const {
-  Position pos = getPosition(tile);
-  std::vector<Position> surronding = getSurounding( pos);
-  std::vector<Tile*> neighbors;
-  for( Position neighbor : surronding){
-    if( Tile * tile = getTile( neighbor)){
-      neighbors.push_back(tile);
-    }
-  }
-  return neighbors;
-}
-
-void
-Field::glPosition( Position pos) const {
-  glVertex( getVectorPosition( pos));
-}
-
-Tile*
-Field::getTile( const Position& position) const {
-  if( position.x < 0 || position.x >= (int) size[0] || position.y < 0 || position.y >= (int) size[1]) {
-    return nullptr;
-  }
-  return tiles + position.x + size[0] * position.y;
-}
-
-Tile*
-Field::getTile( vec2 pos) const {
-  for( Tile* it = tiles; it != tiles + size[0]*size[1]; ++it) {
-    vec2 tile_position = getDrawingPosition( it);
-    if( (float) (pos - tile_position) < three_sqrt_half * 0.5f ) {
-      return it;
-    }
-  }
-  return nullptr;
-}
-
-Position
-Field::getPosition( const Tile* tile) const {
-  if( tile < tiles || tile > tiles + size[0]* size[1]) {
-    return Position(-1,-1);
-  }
-  unsigned tile_position = tile - tiles;
-  return Position( tile_position % size[0], tile_position / size[0]);
-}
-
-vec2
-Field::getVectorPosition( Position pos) const {
-  return vec2((pos.x + ( pos.y % 2 == 1 ? 0.25f : -0.25 ) + 0.5f) * tile_size.x, (pos.y + 0.5f) * tile_size.y);
-}
-
-vec2
-Field::getVectorPosition( Tile* pos) const {
-  return getVectorPosition( getPosition( pos));
-}
-
-vec2
-Field::getDrawingPosition( Tile* pos) const {
-  return getVectorPosition( getPosition( pos)) + (pos->getHeight() > 0 ? vec2( 0, pos->getHeight() * TILE_STEP_HEIGHT) : vec2());
 }

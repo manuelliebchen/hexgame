@@ -44,20 +44,16 @@ public:
   void draw( vec2 translation) const;
   void mark( vec2 translation, std::vector<Tile*> path) const;
 
-  unsigned getDistance( Position start, Position destination) const;
+  Tile* estimatTile( vec2 pos) const;
   std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;
-  std::vector<Tile*> findSurounding( Tile* start_tile, int n) const;
-  std::vector<Position> getSurounding( Position position) const;
-  std::vector<Tile*> getSurounding( Tile* position) const;
 
-  Tile* getTile( vec2 pos) const;
   Tile* getTile( const Position& position) const;
   Position getPosition( const Tile* tile) const;
-  vec2 getVectorPosition( Position pos) const;
   vec2 getVectorPosition( Tile* pos) const;
   vec2 getDrawingPosition( Tile* pos) const;
-  void glPosition( Position pos) const;
 
+  std::vector<Tile*> findSurounding( Tile* start_tile, int n) const;
+  std::vector<Tile*> getSurounding( Tile* position) const;
   float heuristic( Tile* start, Tile* end) const;
 
   const unsigned* getSize() const { return size;};
