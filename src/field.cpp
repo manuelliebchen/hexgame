@@ -23,7 +23,6 @@ Field::Field(unsigned _width, unsigned _height, unsigned discrepancy, unsigned s
   color_map[10] = Color( 112,112,112);
   color_map[256] = Color( 240,240,240);
   for( unsigned i = 0; i < size[0] * size[1]; ++i) {
-    Position pos( i%size[0], i/size[0]);
     int height = round(discrepancy * (randf() - 0.5f))+1;
     tiles[i].raise( height);
   }
@@ -57,16 +56,6 @@ Field::raise( Tile* tile, int amount) {
   for( Tile* current_tile : neighbors) {
     current_tile->raise( amount/2);
   }
-  // for( Tile* neighbor : neighbors){
-  //   int height_diference = tile_height - neighbor->getHeight();
-  //   if( height_diference > PATH_HEIGHT_DISCREPANCY) {
-  //     rised += 1;
-  //     raise( neighbor, 1);
-  //   } else if( height_diference < -PATH_HEIGHT_DISCREPANCY) {
-  //     rised -= 1;
-  //     raise( neighbor, -1);
-  //   }
-  // }
 }
 
 void
@@ -161,36 +150,36 @@ Field::heuristic( Tile* start, Tile* end) const {
 
 std::vector<Tile*>
 Field::getSurounding( Tile* tile) const {
-  Position pos = getPosition(tile);
-  std::vector<Position> surounding;
-  surounding.push_back( Position( pos.x -1, pos.y));
-  surounding.push_back( Position( pos.x +1, pos.y));
-  if( pos.y %2 == 0) {
-    surounding.push_back( Position( pos.x , pos.y-1));
-    surounding.push_back( Position( pos.x -1, pos.y-1));
-    surounding.push_back( Position( pos.x , pos.y+1));
-    surounding.push_back( Position( pos.x -1, pos.y+1));
-  } else {
-    surounding.push_back( Position( pos.x , pos.y-1));
-    surounding.push_back( Position( pos.x +1, pos.y-1));
-    surounding.push_back( Position( pos.x , pos.y+1));
-    surounding.push_back( Position( pos.x +1, pos.y+1));
+  if( tile < tiles || tile > tiles + size[0]* size[1]) {
+    return std::vector<Tile*>();
   }
-  std::vector<Tile*> neighbors;
-  for( Position neighbor : surounding){
-    if( Tile * tile = getTile( neighbor)){
-      neighbors.push_back(tile);
+  unsigned tile_position = tile - tiles;
+  int x = tile_position % size[0];
+  int y = tile_position / size[0];
+  std::vector<Tile*> surounding;
+  int offset = y %2 == 0 ? -1 : 0;
+  surounding.push_back( tile_at( x - 1, y));
+  surounding.push_back( tile_at( x + offset, y-1));
+  surounding.push_back( tile_at( x + 1 + offset, y-1));
+  surounding.push_back( tile_at( x + 1, y));
+  surounding.push_back( tile_at( x + 1 + offset, y+1));
+  surounding.push_back( tile_at( x + offset, y+1));
+  for( auto it = surounding.begin(); it != surounding.end(); ++it){
+    if( !(*it)) {
+      surounding.erase(it);
+      --it;
     }
   }
-  return neighbors;
+  surounding.shrink_to_fit();
+  return surounding;
 }
 
 Tile*
-Field::getTile( const Position& position) const {
-  if( position.x < 0 || position.x >= (int) size[0] || position.y < 0 || position.y >= (int) size[1]) {
+Field::tile_at( int x, int y) const {
+  if( x < 0 || x >= (int) size[0] || y < 0 || y >= (int) size[1]) {
     return nullptr;
   }
-  return tiles + position.x + size[0] * position.y;
+  return tiles + x + size[0] * y;
 }
 
 Tile*
@@ -204,19 +193,15 @@ Field::estimatTile( vec2 pos) const {
   return nullptr;
 }
 
-Position
-Field::getPosition( const Tile* tile) const {
-  if( tile < tiles || tile > tiles + size[0]* size[1]) {
-    return Position(-1,-1);
-  }
-  unsigned tile_position = tile - tiles;
-  return Position( tile_position % size[0], tile_position / size[0]);
-}
-
 vec2
 Field::getVectorPosition( Tile* tile) const {
-  Position pos = getPosition( tile);
-  return vec2((pos.x + ( pos.y % 2 == 1 ? 0.25f : -0.25 ) + 0.5f) * tile_size.x, (pos.y + 0.5f) * tile_size.y);
+  if( tile < tiles || tile > tiles + size[0]* size[1]) {
+    return vec2();
+  }
+  unsigned tile_position = tile - tiles;
+  int x = tile_position % size[0];
+  int y = tile_position / size[0];
+  return vec2((x + ( y % 2 == 1 ? 0.25f : -0.25 ) + 0.5f) * three_sqrt_half, (y + 0.5f) * 0.75f);
 }
 
 vec2

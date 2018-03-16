@@ -19,10 +19,10 @@ Game::Game( int* argc, char ** argv, vec2 size) :
 {
   if( (*argc) >= 2) {
     if( argv[1] == std::string("flat")) {
-      field = new Field( 50 * three_sqrt_half, 50);
+      field = new Field( 70 * three_sqrt_half, 70);
     }
   } else {
-    field = new Field( 50 * three_sqrt_half, 50, 50, 10);
+    field = new Field( 70 * three_sqrt_half, 70, 50, 10);
   }
 
   display_position = vec2(-0.5f * field->getSize()[0] * tile_size.x, -0.5f * field->getSize()[1] * tile_size.y);
@@ -35,11 +35,7 @@ Game::Game( int* argc, char ** argv, vec2 size) :
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
   glutInitWindowSize( window_size.x, window_size.y);
-
   glutCreateWindow("The Hex Game");
-
-  // glClearColor (0.0, 0.0, 0.0, 0.0);
-  // glShadeModel (GL_SMOOTH);
 
   glEnable(GL_ALPHA_TEST);
   glAlphaFunc( GL_GREATER, 0.4);
@@ -48,15 +44,14 @@ Game::Game( int* argc, char ** argv, vec2 size) :
   glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
   glEnable( GL_POLYGON_SMOOTH );
 
-  glClearColor( 20/256.0f, 59/256.0f, 122/256.0f, 1.0f);
+  glClearColor( 0.078f, 0.23f, 0.477f, 1.0f);
 
   glutDisplayFunc(&drawCallback);
   glutKeyboardFunc(&keyboardCallback);
   glutMouseFunc(&mouseCallback);
   glutMotionFunc(&mousemotionCallback);
   glutPassiveMotionFunc(&passivmotionCallback);
-
-  reloadMatrix();
+  glutReshapeFunc(&reshapeCallback);
 }
 
 Game::~Game() {
@@ -154,6 +149,12 @@ Game::reloadMatrix() {
   window_size = vec2( glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
   glOrtho( -0.5 * window_size.x, 0.5 * window_size.x, -0.5 * window_size.y, 0.5 * window_size.y, 1, -1);
   glScalef( zoom, zoom, 1);
+}
+
+void
+Game::reshape( int width, int height) {
+  glViewport(0,0,width,height);
+  reloadMatrix();
 }
 
 void

@@ -24,6 +24,7 @@ public:
   void keyboard(unsigned char c, int x, int y);
   void mousemotion( int x, int y);
   void passivmouse( int x, int y);
+  void reshape( int width, int height);
 
 private:
   vec2 window_size;
@@ -47,12 +48,6 @@ private:
   void reloadMatrix();
 
   static Game* game;
-
-  friend void drawCallback();
-  friend void mouseCallback();
-  friend void mousemotionCallback();
-  friend void passivmotionCallback();
-  friend void keyboardCallback();
 };
 
 inline void drawCallback() { Game::getInstance()->draw();};
@@ -60,6 +55,7 @@ inline void mouseCallback(int button, int state, int x, int y) { Game::getInstan
 inline void mousemotionCallback( int x, int y) { Game::getInstance()->mousemotion( x, y);};
 inline void passivmotionCallback( int x, int y) { Game::getInstance()->passivmouse( x, y);};
 inline void keyboardCallback(unsigned char c, int x, int y) { Game::getInstance()->keyboard( c, x, y);};
+inline void reshapeCallback( int width, int height) { Game::getInstance()->reshape(width,height);};
 
 int main( int argc, char ** argv);
 

@@ -16,7 +16,6 @@
 #include <cassert>
 
 #include "constants.h"
-#include "position.h"
 #include "tile.h"
 #include "bush.h"
 #include "util.h"
@@ -47,8 +46,7 @@ public:
   Tile* estimatTile( vec2 pos) const;
   std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;
 
-  Tile* getTile( const Position& position) const;
-  Position getPosition( const Tile* tile) const;
+  Tile* tile_at( int x, int y) const;
   vec2 getVectorPosition( Tile* pos) const;
   vec2 getDrawingPosition( Tile* pos) const;
 
