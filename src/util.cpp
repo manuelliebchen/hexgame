@@ -7,8 +7,7 @@ float randf() {
 };
 
 vec2 getHexCorner( int n){
-  n %= 6;
-  switch( n) {
+  switch( n%6) {
     case 0: return vec2( three_sqrt_half, 0.5f);
     case 1: return vec2( 0, 1);
     case 2: return vec2( -three_sqrt_half, 0.5f);
@@ -18,6 +17,6 @@ vec2 getHexCorner( int n){
   }
 }
 
-void glVertex(vec2 vector) {
-  glVertex2f( vector.x, vector.y);
+float areaOfHexagon( float radius) {
+  return 3 * three_sqrt_half * radius * radius;
 }

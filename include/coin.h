@@ -5,46 +5,44 @@
 
 class Coin : public Figure {
 public:
-  void draw(vec2 position) {
-    glPushMatrix();
+  void draw(vec2 position) const {
     glColor3ub( 179, 153, 0);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex2f( corner.x * 0.3f, corner.y * 0.3f);
+      vec2 corner = getHexCorner(i) * 0.3f + position;
+      glVertex2f( corner.x, corner.y);
     }
     glEnd();
     glColor3ub( 204, 179, 0);
-    glTranslatef( 0, 0.1f, 0);
+    position += vec2( 0, 0.1f);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 6 ; ++i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex( corner * 0.3f);
+      vec2 corner = getHexCorner(i) * 0.3f + position;
+      glVertex2f( corner.x, corner.y);
     }
     glEnd();
     glColor3ub( 179, 153, 0);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 3 ; ++i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex2f( corner.x * 0.2f, corner.y * 0.2f);
+      vec2 corner = getHexCorner(i) * 0.2f + position;
+      glVertex2f( corner.x, corner.y);
     }
     for( int i = 2; i >= 0; --i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex2f( corner.x * 0.2f, corner.y * 0.2f - 0.1f);
+      vec2 corner = getHexCorner(i) * 0.2f + position + vec2( 0, -0.1f);
+      glVertex2f( corner.x, corner.y);
     }
     glEnd();
     glColor3ub( 192, 160, 0);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 3 ; ++i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex2f( corner.x * 0.2f, corner.y * 0.2f - 0.1f);
+      vec2 corner = getHexCorner(i) * 0.2f + position + vec2( 0, -0.1f);
+      glVertex2f( corner.x, corner.y);
     }
     for( unsigned i = 3; i < 6; ++i) {
-      vec2 corner = getHexCorner(i) + position;
-      glVertex2f( corner.x * 0.2f, corner.y * 0.2f);
+      vec2 corner = getHexCorner(i) * 0.2f + position;
+      glVertex2f( corner.x, corner.y);
     }
     glEnd();
-    glPopMatrix();
   };
 };
 

@@ -4,34 +4,37 @@ Field::Field(unsigned _width, unsigned _height) :
   size{ _width, _height},
   tiles( new Tile[size[0]* size[1]])
 {
-  color_map[-256] = Color( 20,  59,122);
-  color_map[0] = Color( 20,  59,122);
-  color_map[1] = Color(240, 203, 25);
-  color_map[7] = Color( 48, 128, 32);
-  color_map[10] = Color( 112,112,112);
-  color_map[256] = Color( 240,240,240);
+  color_map = initializeColorMap();
 }
 
 Field::Field(unsigned _width, unsigned _height, unsigned discrepancy, unsigned smoothing) :
   size{ _width, _height},
   tiles( new Tile[size[0]* size[1]])
 {
-  color_map[-256] = Color( 20,  59,122);
-  color_map[0] = Color( 20,  59,122);
-  color_map[1] = Color(240, 203, 25);
-  color_map[7] = Color( 48, 128, 32);
-  color_map[10] = Color( 112,112,112);
-  color_map[256] = Color( 240,240,240);
+  color_map = initializeColorMap();
   for( unsigned i = 0; i < size[0] * size[1]; ++i) {
     int height = round(discrepancy * (randf() - 0.5f))+1;
     tiles[i].raise( height);
   }
   smoothen( smoothing);
-  forestify( 2);
+  forestify( 4);
 }
 
 Field::~Field() {
   delete[] tiles;
+}
+
+std::map<int,Color>
+Field::initializeColorMap() {
+  std::map<int,Color> color_map;
+  color_map[-128] = Color( 10,  30, 60);
+  color_map[-5]    = Color( 10,  30, 60);
+  color_map[0]    = Color( 20,  59,122);
+  color_map[1]    = Color(240, 203, 25);
+  color_map[7]    = Color( 48, 128, 32);
+  color_map[10]   = Color( 112,112,112);
+  color_map[256]  = Color( 240,240,240);
+  return color_map;
 }
 
 void Field::draw( vec2 translation) const {
@@ -260,8 +263,8 @@ Field::findPath( Tile* start_tile, Tile* destination_tile) const {
     }
 
     for( Tile* neighbor : getSurounding( top)) {
-      float neighbor_height = neighbor->getHeight();
-      float height_diference = abs(top_height - neighbor_height);
+      int neighbor_height = neighbor->getHeight();
+      int height_diference = abs(top_height - neighbor_height);
       if( !neighbor->isWalkable() || height_diference >= PATH_HEIGHT_DISCREPANCY){
         continue;
       }
@@ -312,8 +315,8 @@ Field::findSurounding( Tile* start_tile, int n) const {
     int top_height = top->getHeight();
 
     for( Tile* neighbor : getSurounding( top)) {
-      float neighbor_height = neighbor->getHeight();
-      float height_diference = abs(top_height - neighbor_height);
+      int neighbor_height = neighbor->getHeight();
+      int height_diference = abs(top_height - neighbor_height);
       if( !neighbor->isWalkable() || height_diference >= PATH_HEIGHT_DISCREPANCY){
         continue;
       }

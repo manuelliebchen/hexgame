@@ -43,18 +43,18 @@ public:
   void draw( vec2 translation) const;
   void mark( vec2 translation, std::vector<Tile*> path) const;
 
-  Tile* estimatTile( vec2 pos) const;
-  std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;
-
   Tile* tile_at( int x, int y) const;
   vec2 getVectorPosition( Tile* pos) const;
   vec2 getDrawingPosition( Tile* pos) const;
 
+  Tile* estimatTile( vec2 pos) const;
+  std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;
   std::vector<Tile*> findSurounding( Tile* start_tile, int n) const;
   std::vector<Tile*> getSurounding( Tile* position) const;
   float heuristic( Tile* start, Tile* end) const;
 
   const unsigned* getSize() const { return size;};
+  static std::map<int,Color> initializeColorMap();
 };
 
 #endif

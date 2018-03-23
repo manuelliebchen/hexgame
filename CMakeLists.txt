@@ -10,6 +10,7 @@ set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set( SOURCE
   ${SRC_DIR}/game.cpp
   ${SRC_DIR}/field.cpp
+  ${SRC_DIR}/player.cpp
   ${SRC_DIR}/tile.cpp
   ${SRC_DIR}/util.cpp
   ${SRC_DIR}/vec2.cpp

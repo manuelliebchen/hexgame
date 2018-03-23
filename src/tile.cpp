@@ -5,7 +5,7 @@ void Tile::draw( vec2 position, const std::map<int,Color>& color_map) const {
   color = Color( color.red + color_variation.red,  color.green + color_variation.green,  color.blue + color_variation.blue);
   float height_deviation = height * TILE_STEP_HEIGHT;
   if( height > 0) {
-    glColor3ub(color.red/2, color.green/2, color.blue/2);
+    glColor3ub(color.red/3, color.green/3, color.blue/3);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 3 ; ++i) {
       vec2 corner = getHexCorner(i) * 0.5f + position;
@@ -18,7 +18,7 @@ void Tile::draw( vec2 position, const std::map<int,Color>& color_map) const {
     glEnd();
     position += vec2( 0, height_deviation);
   } else {
-    glColor3ub(color.red/2, color.green/2, color.blue/2);
+    glColor3ub(color.red/3, color.green/3, color.blue/3);
     glBegin(GL_POLYGON);
     for( unsigned i = 0; i < 3 ; ++i) {
       vec2 corner = getHexCorner(i) * 0.5f + position;

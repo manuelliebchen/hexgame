@@ -5,11 +5,12 @@
 
 class Bush : public Figure {
 public:
-  void draw(vec2 position){
+  void draw(vec2 position) const{
     glColor3ub( 73, 28, 11);
     glBegin(GL_POLYGON);
       for( int i = 0; i < 6; ++i) {
-        glVertex( getHexCorner(i) * 0.15f + position);
+        vec2 corner = getHexCorner(i) * 0.15f + position;
+        glVertex2f( corner.x, corner.y);
       }
     glEnd();
     glColor3ub( 25, 71, 7);

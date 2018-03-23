@@ -11,6 +11,7 @@
 #include "util.h"
 #include "vec2.h"
 #include "field.h"
+#include "player.h"
 #include "coin.h"
 #include "bush.h"
 
@@ -33,11 +34,9 @@ private:
   float zoom;
 
   Field * field;
+  Player * player;
 
-  Tile * selected;
-  std::vector<Tile*> path;
-  std::vector<Tile*> surounding;
-  std::vector<Tile*> second_surounding;
+  Tile * hover;
 
   Game( int* argc, char ** argv, vec2 size);
   Game( const Game&);
