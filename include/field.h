@@ -19,6 +19,7 @@
 #include "tile.h"
 #include "bush.h"
 #include "util.h"
+#include "player.h"
 
 class Field {
 private:
@@ -35,7 +36,6 @@ public:
   Field(unsigned width, unsigned height, unsigned discrepancy, unsigned smoothing);
   ~Field();
 
-  void raise( Tile* tile, int amount);
   void smoothen( unsigned amount);
   void smoothen( std::vector<Tile*> to_smooth);
   void forestify( unsigned amount);

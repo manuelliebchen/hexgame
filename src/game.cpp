@@ -67,9 +67,7 @@ void Game::draw() {
 
   if( player) {
     glColor4ub( 0, 192, 255, 128);
-    field->mark( display_position, player->two_turn);
-    glColor4ub( 255, 192, 0, 128);
-    field->mark( display_position, player->one_turn);
+    field->mark( display_position, field->findSurounding( player->standing_on, TURN_WALKING_DISTANCE));
     if( player->standing_on) {
       std::vector<Tile*> path = field->findPath( player->standing_on, hover);
       glColor4ub( 0, 0, 255, 128);
@@ -112,42 +110,53 @@ void Game::mouse(int button, int state, int x, int y){
       zoom /= 1.1;
       reloadMatrix();
     }
- } else if( state == GLUT_DOWN) {
-   click_position = vec2(x,-y);
-   vec2 mouse_position = getFieldPosition( x,y);
-   Tile* tile = field->estimatTile( mouse_position);
-   if( tile) {
-     if( button == GLUT_MIDDLE_BUTTON) {
-       if( !tile->getFigure()){
-         tile->plant();
-       } else if ( dynamic_cast<Bush*>(tile->getFigure())) {
-         tile->clear();
-         tile->place( new Coin);
-       } else if ( dynamic_cast<Coin*>(tile->getFigure())) {
-         tile->clear();
-         player = new Player(tile);
-         tile->place( player);
-       } else {
-         if( tile->getFigure() == player) {
-           player = nullptr;
-         }
-         tile->clear();
-       }
-     } else if( button == GLUT_RIGHT_BUTTON) {
-       if( player && tile != player->standing_on) {
-         player->move( tile);
-       }
-       if( dynamic_cast<Player*>(tile->getFigure())) {
-         player = dynamic_cast<Player*>(tile->getFigure());
-       }
-     } else if( button == 7) {
-       field->raise( tile, -2);
-     } else if( button == 8) {
-       field->raise( tile, 2);
-     }
-   }
+  } else if( state == GLUT_DOWN) {
+    click_position = vec2(x,-y);
+    vec2 mouse_position = getFieldPosition( x,y);
+    Tile* tile = field->estimatTile( mouse_position);
+    if( tile) {
+      // if( button == GLUT_MIDDLE_BUTTON) {
+      //   if( !tile->getFigure()){
+      //     tile->plant();
+      //   } else if ( dynamic_cast<Bush*>(tile->getFigure())) {
+      //     tile->clear();
+      //     tile->place( new Coin);
+      //   } else if ( dynamic_cast<Coin*>(tile->getFigure())) {
+      //     tile->clear();
+      //     player = new Player(tile);
+      //     tile->place( player);
+      //   } else {
+      //     if( tile->getFigure() == player) {
+      //       player = nullptr;
+      //     }
+      //     tile->clear();
+      //   }
+      // } else
+      if( button == GLUT_RIGHT_BUTTON) {
+        if( player ) {
+          if( tile == player->standing_on) {
+            player = nullptr;
+          } else {
+            move_player_to( tile);
+          }
+        } else if( dynamic_cast<Player*>(tile->getFigure())) {
+          player = dynamic_cast<Player*>(tile->getFigure());
+        }
+      }
+    }
   }
   glutPostRedisplay();
+}
+
+bool
+Game::move_player_to( Tile* tile) {
+  std::vector<Tile*> surrounding = field->findSurounding( player->standing_on, TURN_WALKING_DISTANCE);
+  std::vector<Tile*> path = field->findPath( player->standing_on, tile);
+  if( std::find( surrounding.begin(), surrounding.end(), tile) == surrounding.end()) {
+    return false;
+  }
+  player->move( tile);
+  return true;
 }
 
 void

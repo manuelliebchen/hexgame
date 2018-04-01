@@ -43,6 +43,8 @@ private:
   ~Game();
   Game operator= (const Game&);
 
+  bool move_player_to( Tile* tile);
+
   vec2 getFieldPosition( int x, int y);
   void reloadMatrix();
 

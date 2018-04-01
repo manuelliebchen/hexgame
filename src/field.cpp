@@ -18,6 +18,11 @@ Field::Field(unsigned _width, unsigned _height, unsigned discrepancy, unsigned s
   }
   smoothen( smoothing);
   forestify( 4);
+  Tile* tile = tiles + rand() % size[0] + rand() % size[1] * size[0];
+  while( !tile->isWalkable() ) {
+    tile = tiles + rand() % size[0] + rand() % size[1] * size[0];
+  }
+  tile->place( new Player( tile));
 }
 
 Field::~Field() {
@@ -50,15 +55,6 @@ Field::mark( vec2 translation, std::vector<Tile*> path) const {
       vec2 vector = getDrawingPosition( tile) + translation;
       tile->mark(vector);
     }
-}
-
-void
-Field::raise( Tile* tile, int amount) {
-  tile->raise( amount);
-  std::vector<Tile*> neighbors = getSurounding(tile);
-  for( Tile* current_tile : neighbors) {
-    current_tile->raise( amount/2);
-  }
 }
 
 void
@@ -258,7 +254,6 @@ Field::findPath( Tile* start_tile, Tile* destination_tile) const {
         way.push_back( current);
         current = come_from[current];
       }
-      way.push_back( start_tile);
       return way;
     }
 
@@ -341,5 +336,6 @@ Field::findSurounding( Tile* start_tile, int n) const {
       }
     }
   }
+  visited.erase( std::find( visited.begin(), visited.end(), start_tile));
   return visited;
 }
