@@ -12,7 +12,7 @@
 class vec2;
 
 float randf();
-vec2 getHexCorner( int n);
-float areaOfHexagon( float radius);
+vec2  getHexCorner(int n);
+float areaOfHexagon(float radius);
 
 #endif

@@ -21,40 +21,42 @@
 #include "util.h"
 #include "player.h"
 
-class Field {
+class Field
+{
 private:
-  unsigned size[2];
-  Tile* tiles;
+    unsigned size[2];
+    Tile*    tiles;
 
-  std::map<int, Color> color_map;
+    std::map<int, Color> color_map;
 
-  Field( const Field& field);
-  const Field& operator= ( const Field& field);
+    Field(const Field& field);
+    const Field& operator=(const Field& field);
 
 public:
-  Field(unsigned width, unsigned height);
-  Field(unsigned width, unsigned height, unsigned discrepancy, unsigned smoothing);
-  ~Field();
+    Field(unsigned width, unsigned height);
+    Field(unsigned width, unsigned height, unsigned discrepancy,
+          unsigned smoothing);
+    ~Field();
 
-  void smoothen( unsigned amount);
-  void smoothen( std::vector<Tile*> to_smooth);
-  void forestify( unsigned amount);
+    void smoothen(unsigned amount);
+    void smoothen(std::vector<Tile*> to_smooth);
+    void forestify(unsigned amount);
 
-  void draw( vec2 translation) const;
-  void mark( vec2 translation, std::vector<Tile*> path) const;
+    void draw(vec2 translation) const;
+    void mark(vec2 translation, std::vector<Tile*> path) const;
 
-  Tile* tile_at( int x, int y) const;
-  vec2 getVectorPosition( Tile* pos) const;
-  vec2 getDrawingPosition( Tile* pos) const;
+    Tile* tile_at(int x, int y) const;
+    vec2  getVectorPosition(Tile* pos) const;
+    vec2  getDrawingPosition(Tile* pos) const;
 
-  Tile* estimatTile( vec2 pos) const;
-  std::vector<Tile*> findPath( Tile* start_tile, Tile* destination_tile) const;
-  std::vector<Tile*> findSurounding( Tile* start_tile, int n) const;
-  std::vector<Tile*> getSurounding( Tile* position) const;
-  float heuristic( Tile* start, Tile* end) const;
+    Tile*              estimatTile(vec2 pos) const;
+    std::vector<Tile*> findPath(Tile* start_tile, Tile* destination_tile) const;
+    std::vector<Tile*> findSurounding(Tile* start_tile, int n) const;
+    std::vector<Tile*> getSurounding(Tile* position) const;
+    float              heuristic(Tile* start, Tile* end) const;
 
-  const unsigned* getSize() const { return size;};
-  static std::map<int,Color> initializeColorMap();
+    const unsigned*             getSize() const { return size; };
+    static std::map<int, Color> initializeColorMap();
 };
 
 #endif

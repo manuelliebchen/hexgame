@@ -5,11 +5,12 @@
 #include "util.h"
 #include "constants.h"
 
-class Figure {
+class Figure
+{
 
 public:
-  virtual ~Figure() {};
-  virtual void draw( vec2 position) const = 0;
+    virtual ~Figure(){};
+    virtual void draw(vec2 position) const = 0;
 };
 
 #endif
