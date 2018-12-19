@@ -1,9 +1,0 @@
-<map id="tile.h" name="tile.h">
-<area shape="rect" id="node2" href="$d7/d2f/tile_8cpp.html" title="tile.cpp" alt="" coords="5,80,69,107"/>
-<area shape="rect" id="node3" href="$d5/d5a/field_8h.html" title="field.h" alt="" coords="81,155,138,181"/>
-<area shape="rect" id="node7" href="$d3/d62/player_8h.html" title="player.h" alt="" coords="145,80,213,107"/>
-<area shape="rect" id="node4" href="$d4/dd0/field_8cpp.html" title="field.cpp" alt="" coords="50,229,121,256"/>
-<area shape="rect" id="node5" href="$d2/dd5/game_8h.html" title="game.h" alt="" coords="145,229,210,256"/>
-<area shape="rect" id="node6" href="$df/dd9/game_8cpp.html" title="game.cpp" alt="" coords="138,304,217,331"/>
-<area shape="rect" id="node8" href="$db/d80/player_8cpp.html" title="player.cpp" alt="" coords="215,155,297,181"/>
-</map>
