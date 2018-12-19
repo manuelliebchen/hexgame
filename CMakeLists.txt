@@ -5,6 +5,8 @@ PROJECT(Hex-Game)
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 
+add_subdirectory(glm)
+
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 
 set( SOURCE
