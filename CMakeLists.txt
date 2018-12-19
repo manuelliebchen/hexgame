@@ -5,7 +5,7 @@ PROJECT(Hex-Game)
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(glm)
+#add_subdirectory(glm)
 
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 
@@ -15,11 +15,11 @@ set( SOURCE
   ${SRC_DIR}/player.cpp
   ${SRC_DIR}/tile.cpp
   ${SRC_DIR}/util.cpp
-  ${SRC_DIR}/vec2.cpp
 )
 
 include_directories(
-  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/src
+  glm
 )
 
 set( CMAKE_CXX_FLAGS "-O0 -Wall ")

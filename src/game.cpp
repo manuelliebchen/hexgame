@@ -8,7 +8,7 @@ Game* Game::game = nullptr;
 /**
  * Initilice singelton Instance.
  */
-void Game::init(int* argc, char** argv, vec2 size)
+void Game::init(int* argc, char** argv, glm::vec2 size)
 {
     game = new Game(argc, argv, size);
     glutMainLoop();
@@ -21,7 +21,7 @@ Game* Game::getInstance()
 {
     if (!Game::game)
     {
-        Game::game = new Game(nullptr, nullptr, vec2(240, 240));
+        Game::game = new Game(nullptr, nullptr, glm::vec2(240, 240));
     }
     return Game::game;
 }
@@ -29,7 +29,7 @@ Game* Game::getInstance()
 /**
  * Constructs Game.
  */
-Game::Game(int* argc, char** argv, vec2 size) : window_size(size)
+Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
 {
     if ((*argc) >= 2)
     {
@@ -43,8 +43,8 @@ Game::Game(int* argc, char** argv, vec2 size) : window_size(size)
         field = new Field(100 * three_sqrt_half, 100, 50, 30);
     }
 
-    display_position = vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
-                            -0.5f * field->getSize()[1] * 0.75f);
+    display_position = glm::vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
+                                 -0.5f * field->getSize()[1] * 0.75f);
     zoom             = 50;
     player           = nullptr;
     hover            = nullptr;
@@ -144,8 +144,8 @@ void Game::mouse(int button, int state, int x, int y)
     {
         if (button == GLUT_LEFT_BUTTON)
         {
-            display_position +=
-                (vec2(x, -y) - click_position) * (float)(1 / zoom);
+            display_position += (glm::vec2)(glm::vec2(x, -y) - click_position) *
+                                (float)(1 / zoom);
             reloadMatrix();
         }
         else if (button == 3)
@@ -165,9 +165,9 @@ void Game::mouse(int button, int state, int x, int y)
     }
     else if (state == GLUT_DOWN)
     {
-        click_position       = vec2(x, -y);
-        vec2  mouse_position = getFieldPosition(x, y);
-        Tile* tile           = field->estimatTile(mouse_position);
+        click_position           = glm::vec2(x, -y);
+        glm::vec2 mouse_position = getFieldPosition(x, y);
+        Tile*     tile           = field->estimatTile(mouse_position);
         if (tile)
         {
             // if( button == GLUT_MIDDLE_BUTTON) {
@@ -241,21 +241,22 @@ void Game::reloadMatrix()
 void Game::reshape(int width, int height)
 {
     glViewport(0, 0, width, height);
-    window_size = vec2(width, height);
+    window_size = glm::vec2(width, height);
     reloadMatrix();
 }
 
 void Game::mousemotion(int x, int y)
 {
-    display_position += (vec2(x, -y) - click_position) * (float)(1 / zoom);
-    click_position = vec2(x, -y);
+    display_position +=
+        (glm::vec2)(glm::vec2(x, -y) - click_position) * (float)(1 / zoom);
+    click_position = glm::vec2(x, -y);
     glutPostRedisplay();
 }
 
 void Game::passivmouse(int x, int y)
 {
-    vec2  mouse_position = getFieldPosition(x, y);
-    Tile* tile           = field->estimatTile(mouse_position);
+    glm::vec2 mouse_position = getFieldPosition(x, y);
+    Tile*     tile           = field->estimatTile(mouse_position);
     if (tile)
     {
         hover = tile;
@@ -263,10 +264,10 @@ void Game::passivmouse(int x, int y)
     }
 }
 
-vec2 Game::getFieldPosition(int x, int y)
+glm::vec2 Game::getFieldPosition(int x, int y)
 {
-    vec2 mouse_position(x, y);
-    mouse_position -= vec2(window_size.x * 0.5f, window_size.y * 0.5f);
+    glm::vec2 mouse_position(x, y);
+    mouse_position -= glm::vec2(window_size.x * 0.5f, window_size.y * 0.5f);
     mouse_position.y = -mouse_position.y;
     mouse_position *= 1 / (float)zoom;
     mouse_position -= display_position;
@@ -275,6 +276,6 @@ vec2 Game::getFieldPosition(int x, int y)
 
 int main(int argc, char** argv)
 {
-    Game::init(&argc, argv, vec2(800, 600));
+    Game::init(&argc, argv, glm::vec2(800, 600));
     return 0;
 }

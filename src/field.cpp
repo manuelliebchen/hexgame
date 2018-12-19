@@ -19,15 +19,17 @@ Field::Field(unsigned _width, unsigned _height, unsigned discrepancy,
     color_map = initializeColorMap();
     for (unsigned i = 0; i < size[0] * size[1]; ++i)
     {
-        int height = round(discrepancy * (randf() - 0.5f)) + 1;
+        int height = round(discrepancy * (rand<float>() - 0.5f)) + 1;
         tiles[i].raise(height);
     }
     smoothen(smoothing);
     forestify(4);
-    Tile* tile = tiles + rand() % size[0] + rand() % size[1] * size[0];
+    Tile* tile = tiles + rand<unsigned int>() % size[0] +
+                 rand<unsigned int>() % size[1] * size[0];
     while (!tile->isWalkable())
     {
-        tile = tiles + rand() % size[0] + rand() % size[1] * size[0];
+        tile = tiles + rand<unsigned int>() % size[0] +
+               rand<unsigned int>() % size[1] * size[0];
     }
     tile->place(new Player(tile));
 }
@@ -145,7 +147,7 @@ void Field::forestify(unsigned amount)
         if (height > 1 && height <= 7)
         {
             tiles[i].clear();
-            if (randf() > 0.7f)
+            if (rand<float>() > 0.7f)
             {
                 tiles[i].plant();
             }
@@ -200,7 +202,7 @@ void Field::forestify(unsigned amount)
 float Field::heuristic(Tile* start, Tile* end) const
 {
     return three_sqrt_half_inv *
-           (float)(getVectorPosition(start) - getVectorPosition(end));
+           glm::distance(getVectorPosition(start), getVectorPosition(end));
 }
 
 /**
@@ -257,7 +259,7 @@ Tile* Field::estimatTile(vec2 pos) const
     for (Tile* it = tiles; it != tiles + size[0] * size[1]; ++it)
     {
         vec2 tile_position = getDrawingPosition(it);
-        if ((float)(pos - tile_position) < three_sqrt_half * 0.5f)
+        if (glm::distance(pos, tile_position) < three_sqrt_half * 0.5f)
         {
             return it;
         }
@@ -305,7 +307,7 @@ std::vector<Tile*> Field::findPath(Tile* start_tile,
     {
         return std::vector<Tile*>();
     }
-    vec2 destination_vec = getVectorPosition(destination_tile);
+    //    vec2 destination_vec = getVectorPosition(destination_tile);
 
     //The Closed Nodes
     std::vector<Tile*> visited;

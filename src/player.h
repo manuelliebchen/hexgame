@@ -1,8 +1,9 @@
 #ifndef _PLAYER_
 #define _PLAYER_
 
+#include "glm/glm.hpp"
+
 #include "constants.h"
-#include "vec2.h"
 #include "figure.h"
 #include "tile.h"
 

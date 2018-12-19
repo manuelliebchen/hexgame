@@ -5,11 +5,12 @@
 
 #include <map>
 
+#include "glm/glm.hpp"
+
 #include "color.h"
 #include "figure.h"
 #include "bush.h"
 #include "coin.h"
-#include "vec2.h"
 #include "constants.h"
 
 class Tile

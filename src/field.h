@@ -3,6 +3,8 @@
 
 #include <GL/glut.h>
 
+#include "glm/glm.hpp"
+
 #include <queue>
 #include <vector>
 #include <array>

@@ -6,12 +6,15 @@
 #include <random>
 #include <iostream>
 
-#include "vec2.h"
+#include "glm/glm.hpp"
+
 #include "constants.h"
 
-class vec2;
+typedef glm::vec2 vec2;
 
-float randf();
+template <typename T>
+T rand();
+
 vec2  getHexCorner(int n);
 float areaOfHexagon(float radius);
 

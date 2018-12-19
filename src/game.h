@@ -7,13 +7,17 @@
 #include <string>
 #include <ctime>
 
+#include "glm/glm.hpp"
+
 #include "constants.h"
 #include "util.h"
-#include "vec2.h"
 #include "field.h"
 #include "player.h"
 #include "coin.h"
 #include "bush.h"
+
+typedef glm::ivec2 field_position;
+typedef glm::vec2  vec2;
 
 /**
  * Game Class for gameing
