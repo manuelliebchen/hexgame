@@ -1,11 +1,17 @@
 #include "field.h"
 
+/**
+ * Create Fild by Size.
+ */
 Field::Field(unsigned _width, unsigned _height)
     : size{_width, _height}, tiles(new Tile[size[0] * size[1]])
 {
     color_map = initializeColorMap();
 }
 
+/**
+ * Generates random Map.
+ */
 Field::Field(unsigned _width, unsigned _height, unsigned discrepancy,
              unsigned smoothing)
     : size{_width, _height}, tiles(new Tile[size[0] * size[1]])
@@ -26,11 +32,17 @@ Field::Field(unsigned _width, unsigned _height, unsigned discrepancy,
     tile->place(new Player(tile));
 }
 
+/**
+ * Delets the tiles and the Fild.
+ */
 Field::~Field()
 {
     delete[] tiles;
 }
 
+/**
+ * Initializes the Color Map for Height indecation of tiles.
+ */
 std::map<int, Color> Field::initializeColorMap()
 {
     std::map<int, Color> color_map;
@@ -44,6 +56,9 @@ std::map<int, Color> Field::initializeColorMap()
     return color_map;
 }
 
+/**
+ * Redraws the Fild.
+ */
 void Field::draw(vec2 translation) const
 {
     for (int i = (size[0] * size[1]) - 1; i >= 0; --i)
@@ -53,6 +68,9 @@ void Field::draw(vec2 translation) const
     }
 }
 
+/**
+ * Mark tiles.
+ */
 void Field::mark(vec2 translation, std::vector<Tile*> path) const
 {
     for (Tile* tile : path)
@@ -62,6 +80,10 @@ void Field::mark(vec2 translation, std::vector<Tile*> path) const
     }
 }
 
+/**
+ * Smoothes the map.
+ * Used for Map generation.
+ */
 void Field::smoothen(unsigned amount)
 {
     for (unsigned j = 0; j < amount; j++)
@@ -87,6 +109,9 @@ void Field::smoothen(unsigned amount)
     }
 }
 
+/**
+ * Smothet some tiles.
+ */
 void Field::smoothen(std::vector<Tile*> to_smooth)
 {
     std::map<Tile*, int> raising;
@@ -109,6 +134,9 @@ void Field::smoothen(std::vector<Tile*> to_smooth)
     }
 }
 
+/**
+ * Plants some trees.
+ */
 void Field::forestify(unsigned amount)
 {
     for (unsigned i = 0; i < size[0] * size[1]; ++i)
@@ -166,12 +194,20 @@ void Field::forestify(unsigned amount)
     }
 }
 
+/**
+ * Returns the Euclidian distance form start to end.
+ */
 float Field::heuristic(Tile* start, Tile* end) const
 {
     return three_sqrt_half_inv *
            (float)(getVectorPosition(start) - getVectorPosition(end));
 }
 
+/**
+ * Gets the Tiles that suround the tile given.
+ *
+ * TODO: Check the system to discard Edge peases.
+ */
 std::vector<Tile*> Field::getSurounding(Tile* tile) const
 {
     if (tile < tiles || tile > tiles + size[0] * size[1])
@@ -201,6 +237,9 @@ std::vector<Tile*> Field::getSurounding(Tile* tile) const
     return surounding;
 }
 
+/**
+ * @return the tile at a given
+ */
 Tile* Field::tile_at(int x, int y) const
 {
     if (x < 0 || x >= (int)size[0] || y < 0 || y >= (int)size[1])
@@ -210,6 +249,9 @@ Tile* Field::tile_at(int x, int y) const
     return tiles + x + size[0] * y;
 }
 
+/**
+ * @return the estimatet Tile that is near te pos.
+ */
 Tile* Field::estimatTile(vec2 pos) const
 {
     for (Tile* it = tiles; it != tiles + size[0] * size[1]; ++it)
@@ -223,6 +265,9 @@ Tile* Field::estimatTile(vec2 pos) const
     return nullptr;
 }
 
+/**
+ * @return the real possition to a given tile.
+ */
 vec2 Field::getVectorPosition(Tile* tile) const
 {
     if (tile < tiles || tile > tiles + size[0] * size[1])
@@ -236,6 +281,9 @@ vec2 Field::getVectorPosition(Tile* tile) const
                 (y + 0.5f) * 0.75f);
 }
 
+/**
+ * @return position where to draw objekts that stand on a given tile.
+ */
 vec2 Field::getDrawingPosition(Tile* pos) const
 {
     return getVectorPosition(pos) +
@@ -243,6 +291,9 @@ vec2 Field::getDrawingPosition(Tile* pos) const
                                  : vec2());
 }
 
+/**
+ * Basic implementation of A* to find Pathes on the fild.
+ */
 std::vector<Tile*> Field::findPath(Tile* start_tile,
                                    Tile* destination_tile) const
 {
@@ -336,6 +387,9 @@ std::vector<Tile*> Field::findPath(Tile* start_tile,
     return std::vector<Tile*>();
 }
 
+/**
+ * Finds the n-ring to a given start_tile.
+ */
 std::vector<Tile*> Field::findSurounding(Tile* start_tile, int n) const
 {
     //The Closed Nodes

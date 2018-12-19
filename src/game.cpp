@@ -1,13 +1,22 @@
 #include "game.h"
 
+/**
+ * Singelton Instance.
+ */
 Game* Game::game = nullptr;
 
+/**
+ * Initilice singelton Instance.
+ */
 void Game::init(int* argc, char** argv, vec2 size)
 {
     game = new Game(argc, argv, size);
     glutMainLoop();
 }
 
+/**
+ * @return Instance of game
+ */
 Game* Game::getInstance()
 {
     if (!Game::game)
@@ -17,6 +26,9 @@ Game* Game::getInstance()
     return Game::game;
 }
 
+/**
+ * Constructs Game.
+ */
 Game::Game(int* argc, char** argv, vec2 size) : window_size(size)
 {
     if ((*argc) >= 2)
@@ -35,6 +47,7 @@ Game::Game(int* argc, char** argv, vec2 size) : window_size(size)
                             -0.5f * field->getSize()[1] * 0.75f);
     zoom             = 50;
     player           = nullptr;
+    hover            = nullptr;
 
     int   glut_argc    = 1;
     char* glut_argv[1] = {(char*)"hexgame"};
@@ -63,11 +76,17 @@ Game::Game(int* argc, char** argv, vec2 size) : window_size(size)
     glutReshapeFunc(&reshapeCallback);
 }
 
+/**
+ * Delets game
+ */
 Game::~Game()
 {
     delete field;
 }
 
+/**
+ * Redraw Game.
+ */
 void Game::draw()
 {
     // std::clock_t c_start = std::clock();
@@ -95,6 +114,9 @@ void Game::draw()
     // std::cout << "FPS: " << CLOCKS_PER_SEC / (float)(c_end-c_start) << std::endl;
 }
 
+/**
+ * Handel Keyboard inputs.
+ */
 void Game::keyboard(unsigned char c, int x, int y)
 {
     switch (c)
@@ -113,6 +135,9 @@ void Game::keyboard(unsigned char c, int x, int y)
     }
 }
 
+/**
+ * Handels Mouse Inputs
+ */
 void Game::mouse(int button, int state, int x, int y)
 {
     if (state == GLUT_UP)
@@ -185,6 +210,9 @@ void Game::mouse(int button, int state, int x, int y)
     glutPostRedisplay();
 }
 
+/**
+ * Handels a move request.
+ */
 bool Game::move_player_to(Tile* tile)
 {
     std::vector<Tile*> surrounding =
@@ -199,6 +227,9 @@ bool Game::move_player_to(Tile* tile)
     return true;
 }
 
+/**
+ * Resets Projectoin Matrix for Rendering.
+ */
 void Game::reloadMatrix()
 {
     glLoadIdentity();

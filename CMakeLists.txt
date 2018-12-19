@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 # Project Name
-PROJECT(Glut-Test)
+PROJECT(Hex-Game)
 
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
