@@ -1,0 +1,176 @@
+\hypertarget{classTile}{}\section{Tile Class Reference}
+\label{classTile}\index{Tile@{Tile}}
+
+
+{\ttfamily \#include $<$tile.\+h$>$}
+
+
+
+Collaboration diagram for Tile\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{d6/dd1/classTile__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTile_aeeb5593bb6b75aae2edfcccbc84ab378}{Tile} ()
+\item 
+\hyperlink{classTile_a98634abbd93fa13d0578d7103202d03d}{$\sim$\+Tile} ()
+\item 
+\hyperlink{classFigure}{Figure} $\ast$\& \hyperlink{classTile_a60af31824ef9a5992f9e17b13df76c60}{get\+Figure} ()
+\item 
+bool \hyperlink{classTile_a1cb171d83f6942aebd2499bc2c678f7f}{place} (\hyperlink{classFigure}{Figure} $\ast$fig)
+\item 
+void \hyperlink{classTile_a8f482bab4aa537311f8948f225c915a4}{clear} ()
+\item 
+void \hyperlink{classTile_a2df9b57eb3fdba56aa69d989c18a7989}{raise} (int amount)
+\item 
+void \hyperlink{classTile_a69a295280f0ab2c2e5325ed3aabaf54e}{move\+Figure\+To} (\hyperlink{classTile}{Tile} $\ast$tile)
+\item 
+int \hyperlink{classTile_a8ff17f88b15ff106a8df470df9b4bda6}{get\+Height} () const
+\item 
+bool \hyperlink{classTile_a2f9971efdf7b36249a491ca7ceb2ef57}{is\+Walkable} () const
+\item 
+void \hyperlink{classTile_ab0e0884c673e59a98e59118fa92127bc}{draw} (\hyperlink{structvec2}{vec2} position, const std\+::map$<$ int, \hyperlink{structColor}{Color} $>$ \&color\+\_\+map) const
+\item 
+void \hyperlink{classTile_afe81f76a0c23b9050990e0f10eb4128f}{mark} (\hyperlink{structvec2}{vec2} translation) const
+\item 
+void \hyperlink{classTile_a872043e678348699184b5d55efb4c6d3}{plant} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTile_a0118b16957fc9fc912905c3085afe926}{Tile} (const \hyperlink{classTile}{Tile} \&tile)=delete
+\item 
+const \hyperlink{classTile}{Tile} \& \hyperlink{classTile_a75da44d88e876130202f7dfddec72121}{operator=} (const \hyperlink{classTile}{Tile} \&tile)=delete
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFigure}{Figure} $\ast$ \hyperlink{classTile_a96976c70d77812bcce266c00ba0513ee}{figure}
+\item 
+\hyperlink{structColor}{Color} \hyperlink{classTile_abfdce38f0f708b67dd84e0992ebca268}{color\+\_\+variation}
+\item 
+int \hyperlink{classTile_a1ceee2a6a986af91980d62c039ffe792}{height}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classTile_a0118b16957fc9fc912905c3085afe926}\label{classTile_a0118b16957fc9fc912905c3085afe926}} 
+\index{Tile@{Tile}!Tile@{Tile}}
+\index{Tile@{Tile}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{Tile()}{Tile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Tile\+::\+Tile (\begin{DoxyParamCaption}\item[{const \hyperlink{classTile}{Tile} \&}]{tile }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classTile_aeeb5593bb6b75aae2edfcccbc84ab378}\label{classTile_aeeb5593bb6b75aae2edfcccbc84ab378}} 
+\index{Tile@{Tile}!Tile@{Tile}}
+\index{Tile@{Tile}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{Tile()}{Tile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Tile\+::\+Tile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a98634abbd93fa13d0578d7103202d03d}\label{classTile_a98634abbd93fa13d0578d7103202d03d}} 
+\index{Tile@{Tile}!````~Tile@{$\sim$\+Tile}}
+\index{````~Tile@{$\sim$\+Tile}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{$\sim$\+Tile()}{~Tile()}}
+{\footnotesize\ttfamily Tile\+::$\sim$\+Tile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classTile_a8f482bab4aa537311f8948f225c915a4}\label{classTile_a8f482bab4aa537311f8948f225c915a4}} 
+\index{Tile@{Tile}!clear@{clear}}
+\index{clear@{clear}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Tile\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_ab0e0884c673e59a98e59118fa92127bc}\label{classTile_ab0e0884c673e59a98e59118fa92127bc}} 
+\index{Tile@{Tile}!draw@{draw}}
+\index{draw@{draw}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Tile\+::draw (\begin{DoxyParamCaption}\item[{\hyperlink{structvec2}{vec2}}]{position,  }\item[{const std\+::map$<$ int, \hyperlink{structColor}{Color} $>$ \&}]{color\+\_\+map }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classTile_a60af31824ef9a5992f9e17b13df76c60}\label{classTile_a60af31824ef9a5992f9e17b13df76c60}} 
+\index{Tile@{Tile}!get\+Figure@{get\+Figure}}
+\index{get\+Figure@{get\+Figure}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{get\+Figure()}{getFigure()}}
+{\footnotesize\ttfamily \hyperlink{classFigure}{Figure}$\ast$\& Tile\+::get\+Figure (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a8ff17f88b15ff106a8df470df9b4bda6}\label{classTile_a8ff17f88b15ff106a8df470df9b4bda6}} 
+\index{Tile@{Tile}!get\+Height@{get\+Height}}
+\index{get\+Height@{get\+Height}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{get\+Height()}{getHeight()}}
+{\footnotesize\ttfamily int Tile\+::get\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a2f9971efdf7b36249a491ca7ceb2ef57}\label{classTile_a2f9971efdf7b36249a491ca7ceb2ef57}} 
+\index{Tile@{Tile}!is\+Walkable@{is\+Walkable}}
+\index{is\+Walkable@{is\+Walkable}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{is\+Walkable()}{isWalkable()}}
+{\footnotesize\ttfamily bool Tile\+::is\+Walkable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_afe81f76a0c23b9050990e0f10eb4128f}\label{classTile_afe81f76a0c23b9050990e0f10eb4128f}} 
+\index{Tile@{Tile}!mark@{mark}}
+\index{mark@{mark}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{mark()}{mark()}}
+{\footnotesize\ttfamily void Tile\+::mark (\begin{DoxyParamCaption}\item[{\hyperlink{structvec2}{vec2}}]{translation }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classTile_a69a295280f0ab2c2e5325ed3aabaf54e}\label{classTile_a69a295280f0ab2c2e5325ed3aabaf54e}} 
+\index{Tile@{Tile}!move\+Figure\+To@{move\+Figure\+To}}
+\index{move\+Figure\+To@{move\+Figure\+To}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{move\+Figure\+To()}{moveFigureTo()}}
+{\footnotesize\ttfamily void Tile\+::move\+Figure\+To (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{tile }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a75da44d88e876130202f7dfddec72121}\label{classTile_a75da44d88e876130202f7dfddec72121}} 
+\index{Tile@{Tile}!operator=@{operator=}}
+\index{operator=@{operator=}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily const \hyperlink{classTile}{Tile}\& Tile\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classTile}{Tile} \&}]{tile }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classTile_a1cb171d83f6942aebd2499bc2c678f7f}\label{classTile_a1cb171d83f6942aebd2499bc2c678f7f}} 
+\index{Tile@{Tile}!place@{place}}
+\index{place@{place}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{place()}{place()}}
+{\footnotesize\ttfamily bool Tile\+::place (\begin{DoxyParamCaption}\item[{\hyperlink{classFigure}{Figure} $\ast$}]{fig }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a872043e678348699184b5d55efb4c6d3}\label{classTile_a872043e678348699184b5d55efb4c6d3}} 
+\index{Tile@{Tile}!plant@{plant}}
+\index{plant@{plant}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{plant()}{plant()}}
+{\footnotesize\ttfamily void Tile\+::plant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classTile_a2df9b57eb3fdba56aa69d989c18a7989}\label{classTile_a2df9b57eb3fdba56aa69d989c18a7989}} 
+\index{Tile@{Tile}!raise@{raise}}
+\index{raise@{raise}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{raise()}{raise()}}
+{\footnotesize\ttfamily void Tile\+::raise (\begin{DoxyParamCaption}\item[{int}]{amount }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classTile_abfdce38f0f708b67dd84e0992ebca268}\label{classTile_abfdce38f0f708b67dd84e0992ebca268}} 
+\index{Tile@{Tile}!color\+\_\+variation@{color\+\_\+variation}}
+\index{color\+\_\+variation@{color\+\_\+variation}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{color\+\_\+variation}{color\_variation}}
+{\footnotesize\ttfamily \hyperlink{structColor}{Color} Tile\+::color\+\_\+variation\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classTile_a96976c70d77812bcce266c00ba0513ee}\label{classTile_a96976c70d77812bcce266c00ba0513ee}} 
+\index{Tile@{Tile}!figure@{figure}}
+\index{figure@{figure}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{figure}{figure}}
+{\footnotesize\ttfamily \hyperlink{classFigure}{Figure}$\ast$ Tile\+::figure\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classTile_a1ceee2a6a986af91980d62c039ffe792}\label{classTile_a1ceee2a6a986af91980d62c039ffe792}} 
+\index{Tile@{Tile}!height@{height}}
+\index{height@{height}!Tile@{Tile}}
+\subsubsection{\texorpdfstring{height}{height}}
+{\footnotesize\ttfamily int Tile\+::height\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{tile_8h}{tile.\+h}\item 
+\hyperlink{tile_8cpp}{tile.\+cpp}\end{DoxyCompactItemize}

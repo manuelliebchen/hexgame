@@ -1,0 +1,241 @@
+\hypertarget{classField}{}\section{Field Class Reference}
+\label{classField}\index{Field@{Field}}
+
+
+{\ttfamily \#include $<$field.\+h$>$}
+
+
+
+Collaboration diagram for Field\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{d3/d0e/classField__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classField_ace906b0a3a8057fd29feb3208738da8b}{Field} (unsigned width, unsigned height)
+\item 
+\hyperlink{classField_a8f32e3182de753297bf48cbf81266fa0}{Field} (unsigned width, unsigned height, unsigned discrepancy, unsigned smoothing)
+\item 
+\hyperlink{classField_a45d6e6d09b8f8e46de62b40119d62c60}{$\sim$\+Field} ()
+\item 
+void \hyperlink{classField_a7f7717afdf36e1c572743645215b09ad}{smoothen} (unsigned amount)
+\item 
+void \hyperlink{classField_ac4e988bd9aa40e2821d43576907abe81}{smoothen} (std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$$>$ to\+\_\+smooth)
+\item 
+void \hyperlink{classField_aa4550e9ebc14ccaa6d1e3e110906c9b9}{forestify} (unsigned amount)
+\item 
+void \hyperlink{classField_a6ba5bccf334f6022710acb5a4bbe5e09}{draw} (\hyperlink{structvec2}{vec2} translation) const
+\item 
+void \hyperlink{classField_a908ce6baa14bf69944f63caed4032a8a}{mark} (\hyperlink{structvec2}{vec2} translation, std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$$>$ path) const
+\item 
+\hyperlink{classTile}{Tile} $\ast$ \hyperlink{classField_aa31d2b14e58becf8741a3b4dc19ecc52}{tile\+\_\+at} (int x, int y) const
+\item 
+\hyperlink{structvec2}{vec2} \hyperlink{classField_a361bc41ed73bb361ee84c390a9f9c0d0}{get\+Vector\+Position} (\hyperlink{classTile}{Tile} $\ast$pos) const
+\item 
+\hyperlink{structvec2}{vec2} \hyperlink{classField_aab4e4dfa665fb94c158e1902f1bd46c1}{get\+Drawing\+Position} (\hyperlink{classTile}{Tile} $\ast$pos) const
+\item 
+\hyperlink{classTile}{Tile} $\ast$ \hyperlink{classField_a8068a7e61bc891b1e4cf7d4d9d7afd12}{estimat\+Tile} (\hyperlink{structvec2}{vec2} pos) const
+\item 
+std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ \hyperlink{classField_a0e5a676ab734632e575513491f049330}{find\+Path} (\hyperlink{classTile}{Tile} $\ast$start\+\_\+tile, \hyperlink{classTile}{Tile} $\ast$destination\+\_\+tile) const
+\item 
+std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ \hyperlink{classField_a7bc17bb858f3707e156d1fb6e32a4196}{find\+Surounding} (\hyperlink{classTile}{Tile} $\ast$start\+\_\+tile, int n) const
+\item 
+std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ \hyperlink{classField_a36a2c3f822ece390f7b69f528d1d8742}{get\+Surounding} (\hyperlink{classTile}{Tile} $\ast$position) const
+\item 
+float \hyperlink{classField_a1b07030b79bb1e68dbf82aff2bd45730}{heuristic} (\hyperlink{classTile}{Tile} $\ast$start, \hyperlink{classTile}{Tile} $\ast$end) const
+\item 
+const unsigned $\ast$ \hyperlink{classField_a6daa65acbf49cc9c9516eca76efeaec2}{get\+Size} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::map$<$ int, \hyperlink{structColor}{Color} $>$ \hyperlink{classField_aeb9f68e86153bfefe2191149fdd840ed}{initialize\+Color\+Map} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classField_a72ebbf8a9843cfd7844aa76698ea1541}{Field} (const \hyperlink{classField}{Field} \&field)
+\item 
+const \hyperlink{classField}{Field} \& \hyperlink{classField_a13d788c1c3d6bba97f3b8d3b6582a814}{operator=} (const \hyperlink{classField}{Field} \&field)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \hyperlink{classField_acc2b9f1374f0dbb02f10aaae82762241}{size} \mbox{[}2\mbox{]}
+\item 
+\hyperlink{classTile}{Tile} $\ast$ \hyperlink{classField_afe68ecac3a63285a2514e6b550b2277c}{tiles}
+\item 
+std\+::map$<$ int, \hyperlink{structColor}{Color} $>$ \hyperlink{classField_a105993998155a8564b883748b65dddb4}{color\+\_\+map}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classField_a72ebbf8a9843cfd7844aa76698ea1541}\label{classField_a72ebbf8a9843cfd7844aa76698ea1541}} 
+\index{Field@{Field}!Field@{Field}}
+\index{Field@{Field}!Field@{Field}}
+\subsubsection{\texorpdfstring{Field()}{Field()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Field\+::\+Field (\begin{DoxyParamCaption}\item[{const \hyperlink{classField}{Field} \&}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classField_ace906b0a3a8057fd29feb3208738da8b}\label{classField_ace906b0a3a8057fd29feb3208738da8b}} 
+\index{Field@{Field}!Field@{Field}}
+\index{Field@{Field}!Field@{Field}}
+\subsubsection{\texorpdfstring{Field()}{Field()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Field\+::\+Field (\begin{DoxyParamCaption}\item[{unsigned}]{\+\_\+width,  }\item[{unsigned}]{\+\_\+height }\end{DoxyParamCaption})}
+
+Create Fild by Size. \mbox{\Hypertarget{classField_a8f32e3182de753297bf48cbf81266fa0}\label{classField_a8f32e3182de753297bf48cbf81266fa0}} 
+\index{Field@{Field}!Field@{Field}}
+\index{Field@{Field}!Field@{Field}}
+\subsubsection{\texorpdfstring{Field()}{Field()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Field\+::\+Field (\begin{DoxyParamCaption}\item[{unsigned}]{\+\_\+width,  }\item[{unsigned}]{\+\_\+height,  }\item[{unsigned}]{discrepancy,  }\item[{unsigned}]{smoothing }\end{DoxyParamCaption})}
+
+Generates random Map. \mbox{\Hypertarget{classField_a45d6e6d09b8f8e46de62b40119d62c60}\label{classField_a45d6e6d09b8f8e46de62b40119d62c60}} 
+\index{Field@{Field}!````~Field@{$\sim$\+Field}}
+\index{````~Field@{$\sim$\+Field}!Field@{Field}}
+\subsubsection{\texorpdfstring{$\sim$\+Field()}{~Field()}}
+{\footnotesize\ttfamily Field\+::$\sim$\+Field (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Delets the tiles and the Fild. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classField_a6ba5bccf334f6022710acb5a4bbe5e09}\label{classField_a6ba5bccf334f6022710acb5a4bbe5e09}} 
+\index{Field@{Field}!draw@{draw}}
+\index{draw@{draw}!Field@{Field}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Field\+::draw (\begin{DoxyParamCaption}\item[{\hyperlink{structvec2}{vec2}}]{translation }\end{DoxyParamCaption}) const}
+
+Redraws the Fild. \mbox{\Hypertarget{classField_a8068a7e61bc891b1e4cf7d4d9d7afd12}\label{classField_a8068a7e61bc891b1e4cf7d4d9d7afd12}} 
+\index{Field@{Field}!estimat\+Tile@{estimat\+Tile}}
+\index{estimat\+Tile@{estimat\+Tile}!Field@{Field}}
+\subsubsection{\texorpdfstring{estimat\+Tile()}{estimatTile()}}
+{\footnotesize\ttfamily \hyperlink{classTile}{Tile} $\ast$ Field\+::estimat\+Tile (\begin{DoxyParamCaption}\item[{\hyperlink{structvec2}{vec2}}]{pos }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the estimatet \hyperlink{classTile}{Tile} that is near te pos. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classField_a0e5a676ab734632e575513491f049330}\label{classField_a0e5a676ab734632e575513491f049330}} 
+\index{Field@{Field}!find\+Path@{find\+Path}}
+\index{find\+Path@{find\+Path}!Field@{Field}}
+\subsubsection{\texorpdfstring{find\+Path()}{findPath()}}
+{\footnotesize\ttfamily std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ Field\+::find\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{start\+\_\+tile,  }\item[{\hyperlink{classTile}{Tile} $\ast$}]{destination\+\_\+tile }\end{DoxyParamCaption}) const}
+
+Basic implementation of A$\ast$ to find Pathes on the fild. \mbox{\Hypertarget{classField_a7bc17bb858f3707e156d1fb6e32a4196}\label{classField_a7bc17bb858f3707e156d1fb6e32a4196}} 
+\index{Field@{Field}!find\+Surounding@{find\+Surounding}}
+\index{find\+Surounding@{find\+Surounding}!Field@{Field}}
+\subsubsection{\texorpdfstring{find\+Surounding()}{findSurounding()}}
+{\footnotesize\ttfamily std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ Field\+::find\+Surounding (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{start\+\_\+tile,  }\item[{int}]{n }\end{DoxyParamCaption}) const}
+
+Finds the n-\/ring to a given start\+\_\+tile. \mbox{\Hypertarget{classField_aa4550e9ebc14ccaa6d1e3e110906c9b9}\label{classField_aa4550e9ebc14ccaa6d1e3e110906c9b9}} 
+\index{Field@{Field}!forestify@{forestify}}
+\index{forestify@{forestify}!Field@{Field}}
+\subsubsection{\texorpdfstring{forestify()}{forestify()}}
+{\footnotesize\ttfamily void Field\+::forestify (\begin{DoxyParamCaption}\item[{unsigned}]{amount }\end{DoxyParamCaption})}
+
+Plants some trees. \mbox{\Hypertarget{classField_aab4e4dfa665fb94c158e1902f1bd46c1}\label{classField_aab4e4dfa665fb94c158e1902f1bd46c1}} 
+\index{Field@{Field}!get\+Drawing\+Position@{get\+Drawing\+Position}}
+\index{get\+Drawing\+Position@{get\+Drawing\+Position}!Field@{Field}}
+\subsubsection{\texorpdfstring{get\+Drawing\+Position()}{getDrawingPosition()}}
+{\footnotesize\ttfamily \hyperlink{structvec2}{vec2} Field\+::get\+Drawing\+Position (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{pos }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+position where to draw objekts that stand on a given tile. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classField_a6daa65acbf49cc9c9516eca76efeaec2}\label{classField_a6daa65acbf49cc9c9516eca76efeaec2}} 
+\index{Field@{Field}!get\+Size@{get\+Size}}
+\index{get\+Size@{get\+Size}!Field@{Field}}
+\subsubsection{\texorpdfstring{get\+Size()}{getSize()}}
+{\footnotesize\ttfamily const unsigned$\ast$ Field\+::get\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classField_a36a2c3f822ece390f7b69f528d1d8742}\label{classField_a36a2c3f822ece390f7b69f528d1d8742}} 
+\index{Field@{Field}!get\+Surounding@{get\+Surounding}}
+\index{get\+Surounding@{get\+Surounding}!Field@{Field}}
+\subsubsection{\texorpdfstring{get\+Surounding()}{getSurounding()}}
+{\footnotesize\ttfamily std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$ $>$ Field\+::get\+Surounding (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{tile }\end{DoxyParamCaption}) const}
+
+Gets the Tiles that suround the tile given.
+
+T\+O\+DO\+: Check the system to discard Edge peases. \mbox{\Hypertarget{classField_a361bc41ed73bb361ee84c390a9f9c0d0}\label{classField_a361bc41ed73bb361ee84c390a9f9c0d0}} 
+\index{Field@{Field}!get\+Vector\+Position@{get\+Vector\+Position}}
+\index{get\+Vector\+Position@{get\+Vector\+Position}!Field@{Field}}
+\subsubsection{\texorpdfstring{get\+Vector\+Position()}{getVectorPosition()}}
+{\footnotesize\ttfamily \hyperlink{structvec2}{vec2} Field\+::get\+Vector\+Position (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{tile }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the real possition to a given tile. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classField_a1b07030b79bb1e68dbf82aff2bd45730}\label{classField_a1b07030b79bb1e68dbf82aff2bd45730}} 
+\index{Field@{Field}!heuristic@{heuristic}}
+\index{heuristic@{heuristic}!Field@{Field}}
+\subsubsection{\texorpdfstring{heuristic()}{heuristic()}}
+{\footnotesize\ttfamily float Field\+::heuristic (\begin{DoxyParamCaption}\item[{\hyperlink{classTile}{Tile} $\ast$}]{start,  }\item[{\hyperlink{classTile}{Tile} $\ast$}]{end }\end{DoxyParamCaption}) const}
+
+Returns the Euclidian distance form start to end. \mbox{\Hypertarget{classField_aeb9f68e86153bfefe2191149fdd840ed}\label{classField_aeb9f68e86153bfefe2191149fdd840ed}} 
+\index{Field@{Field}!initialize\+Color\+Map@{initialize\+Color\+Map}}
+\index{initialize\+Color\+Map@{initialize\+Color\+Map}!Field@{Field}}
+\subsubsection{\texorpdfstring{initialize\+Color\+Map()}{initializeColorMap()}}
+{\footnotesize\ttfamily std\+::map$<$ int, \hyperlink{structColor}{Color} $>$ Field\+::initialize\+Color\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Initializes the \hyperlink{structColor}{Color} Map for Height indecation of tiles. \mbox{\Hypertarget{classField_a908ce6baa14bf69944f63caed4032a8a}\label{classField_a908ce6baa14bf69944f63caed4032a8a}} 
+\index{Field@{Field}!mark@{mark}}
+\index{mark@{mark}!Field@{Field}}
+\subsubsection{\texorpdfstring{mark()}{mark()}}
+{\footnotesize\ttfamily void Field\+::mark (\begin{DoxyParamCaption}\item[{\hyperlink{structvec2}{vec2}}]{translation,  }\item[{std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$$>$}]{path }\end{DoxyParamCaption}) const}
+
+Mark tiles. \mbox{\Hypertarget{classField_a13d788c1c3d6bba97f3b8d3b6582a814}\label{classField_a13d788c1c3d6bba97f3b8d3b6582a814}} 
+\index{Field@{Field}!operator=@{operator=}}
+\index{operator=@{operator=}!Field@{Field}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily const \hyperlink{classField}{Field}\& Field\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classField}{Field} \&}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classField_a7f7717afdf36e1c572743645215b09ad}\label{classField_a7f7717afdf36e1c572743645215b09ad}} 
+\index{Field@{Field}!smoothen@{smoothen}}
+\index{smoothen@{smoothen}!Field@{Field}}
+\subsubsection{\texorpdfstring{smoothen()}{smoothen()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Field\+::smoothen (\begin{DoxyParamCaption}\item[{unsigned}]{amount }\end{DoxyParamCaption})}
+
+Smoothes the map. Used for Map generation. \mbox{\Hypertarget{classField_ac4e988bd9aa40e2821d43576907abe81}\label{classField_ac4e988bd9aa40e2821d43576907abe81}} 
+\index{Field@{Field}!smoothen@{smoothen}}
+\index{smoothen@{smoothen}!Field@{Field}}
+\subsubsection{\texorpdfstring{smoothen()}{smoothen()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Field\+::smoothen (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \hyperlink{classTile}{Tile} $\ast$$>$}]{to\+\_\+smooth }\end{DoxyParamCaption})}
+
+Smothet some tiles. \mbox{\Hypertarget{classField_aa31d2b14e58becf8741a3b4dc19ecc52}\label{classField_aa31d2b14e58becf8741a3b4dc19ecc52}} 
+\index{Field@{Field}!tile\+\_\+at@{tile\+\_\+at}}
+\index{tile\+\_\+at@{tile\+\_\+at}!Field@{Field}}
+\subsubsection{\texorpdfstring{tile\+\_\+at()}{tile\_at()}}
+{\footnotesize\ttfamily \hyperlink{classTile}{Tile} $\ast$ Field\+::tile\+\_\+at (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the tile at a given 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classField_a105993998155a8564b883748b65dddb4}\label{classField_a105993998155a8564b883748b65dddb4}} 
+\index{Field@{Field}!color\+\_\+map@{color\+\_\+map}}
+\index{color\+\_\+map@{color\+\_\+map}!Field@{Field}}
+\subsubsection{\texorpdfstring{color\+\_\+map}{color\_map}}
+{\footnotesize\ttfamily std\+::map$<$int, \hyperlink{structColor}{Color}$>$ Field\+::color\+\_\+map\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classField_acc2b9f1374f0dbb02f10aaae82762241}\label{classField_acc2b9f1374f0dbb02f10aaae82762241}} 
+\index{Field@{Field}!size@{size}}
+\index{size@{size}!Field@{Field}}
+\subsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily unsigned Field\+::size\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classField_afe68ecac3a63285a2514e6b550b2277c}\label{classField_afe68ecac3a63285a2514e6b550b2277c}} 
+\index{Field@{Field}!tiles@{tiles}}
+\index{tiles@{tiles}!Field@{Field}}
+\subsubsection{\texorpdfstring{tiles}{tiles}}
+{\footnotesize\ttfamily \hyperlink{classTile}{Tile}$\ast$ Field\+::tiles\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{field_8h}{field.\+h}\item 
+\hyperlink{field_8cpp}{field.\+cpp}\end{DoxyCompactItemize}

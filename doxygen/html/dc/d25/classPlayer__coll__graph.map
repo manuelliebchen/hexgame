@@ -1,0 +1,5 @@
+<map id="Player" name="Player">
+<area shape="rect" id="node2" href="$db/dfd/classFigure.html" title="Figure" alt="" coords="5,5,64,32"/>
+<area shape="rect" id="node3" href="$d6/dba/classTile.html" title="Tile" alt="" coords="56,95,99,121"/>
+<area shape="rect" id="node4" href="$d0/da2/structColor.html" title="Color" alt="" coords="104,5,157,32"/>
+</map>

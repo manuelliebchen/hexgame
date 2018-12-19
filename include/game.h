@@ -15,6 +15,11 @@
 #include "coin.h"
 #include "bush.h"
 
+/**
+ * Game Class for gameing
+ *
+ */
+
 class Game
 {
 public:
