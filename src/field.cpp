@@ -208,7 +208,6 @@ float Field::heuristic(Tile* start, Tile* end) const
 /**
  * Gets the Tiles that suround the tile given.
  *
- * TODO: Check the system to discard Edge peases.
  */
 std::vector<Tile*> Field::getSurounding(Tile* tile) const
 {
@@ -227,6 +226,7 @@ std::vector<Tile*> Field::getSurounding(Tile* tile) const
     surounding.push_back(tile_at(x + 1, y));
     surounding.push_back(tile_at(x + 1 + offset, y + 1));
     surounding.push_back(tile_at(x + offset, y + 1));
+
     for (auto it = surounding.begin(); it != surounding.end(); ++it)
     {
         if (!(*it))
