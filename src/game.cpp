@@ -124,15 +124,42 @@ void Game::keyboard(unsigned char c, int x, int y)
         case 27:
             exit(0);
             break;
-        case 's':
-            field->smoothen(1);
-            glutPostRedisplay();
-            break;
-        case 'f':
-            field->forestify(3);
-            glutPostRedisplay();
-            break;
+            //        case 's':
+            //            field->smoothen(1);
+            //            glutPostRedisplay();
+            //            break;
+            //        case 'f':
+            //            field->forestify(3);
+            //            glutPostRedisplay();
+            //            break;s
     }
+    std::map<unsigned char, unsigned int> direction_key;
+    direction_key['s'] = 0;
+    direction_key['f'] = 1;
+    direction_key['w'] = 2;
+    direction_key['a'] = 3;
+    direction_key['z'] = 4;
+    direction_key['x'] = 5;
+    if (player)
+    {
+        for (auto it = direction_key.begin(); it != direction_key.end(); ++it)
+        {
+            if (it->first == c)
+            {
+                if (Tile* nighbor =
+                        field->getNeighboring(player->standing_on, it->second))
+                {
+
+                    glm::vec2 old_pos =
+                        field->getDrawingPosition(player->standing_on);
+                    move_player_to(nighbor);
+                    display_position += old_pos - field->getDrawingPosition(
+                                                      player->standing_on);
+                }
+            }
+        }
+    }
+    glutPostRedisplay();
 }
 
 /**

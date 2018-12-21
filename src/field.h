@@ -54,6 +54,7 @@ public:
     Tile*              estimatTile(vec2 pos) const;
     std::vector<Tile*> findPath(Tile* start_tile, Tile* destination_tile) const;
     std::vector<Tile*> findSurounding(Tile* start_tile, int n) const;
+    Tile*              getNeighboring(Tile* tile, int direction) const;
     std::vector<Tile*> getSurounding(Tile* position) const;
     float              heuristic(Tile* start, Tile* end) const;
 

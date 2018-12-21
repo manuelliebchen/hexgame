@@ -206,6 +206,34 @@ float Field::heuristic(Tile* start, Tile* end) const
 }
 
 /**
+ * @return Neighboring Tile from tile in direction
+ */
+Tile* Field::getNeighboring(Tile* tile, int direction) const
+{
+    unsigned tile_position = tile - tiles;
+    int      x             = tile_position % size[0];
+    int      y             = tile_position / size[0];
+    int      offset        = y % 2 == 0 ? -1 : 0;
+    switch (direction % 6)
+    {
+        case 0:
+            return tile_at(x + 1, y);
+        case 1:
+            return tile_at(x + 1 + offset, y + 1);
+        case 2:
+            return tile_at(x + offset, y + 1);
+        case 3:
+            return tile_at(x - 1, y);
+        case 4:
+            return tile_at(x + offset, y - 1);
+        case 5:
+            return tile_at(x + 1 + offset, y - 1);
+        default:
+            return nullptr;
+    }
+};
+
+/**
  * Gets the Tiles that suround the tile given.
  *
  */
