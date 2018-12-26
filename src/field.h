@@ -22,6 +22,7 @@
 #include "bush.h"
 #include "util.h"
 #include "player.h"
+#include "button.h"
 
 class Field
 {

@@ -6,8 +6,12 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <functional>
 
 #include "glm/glm.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "constants.h"
 #include "util.h"
@@ -16,8 +20,7 @@
 #include "coin.h"
 #include "bush.h"
 
-typedef glm::ivec2 field_position;
-typedef glm::vec2  vec2;
+#include "gui.h"
 
 /**
  * Game Class for gameing
@@ -38,17 +41,21 @@ public:
     void reshape(int width, int height);
 
 private:
-    vec2  window_size;
-    vec2  display_position;
-    vec2  click_position;
-    float zoom;
+    glm::vec2 window_size;
+    glm::vec2 display_position;
+    glm::vec2 click_position;
+    float     zoom;
+
+    glm::mat4 map_mat;
+    glm::mat4 gui_mat;
 
     Field*  field;
     Player* player;
+    GUI*    gui;
 
     Tile* hover;
 
-    Game(int* argc, char** argv, vec2 size);
+    Game(int* argc, char** argv, glm::vec2 size);
     Game(const Game&);
     ~Game();
     Game operator=(const Game&);
@@ -56,7 +63,6 @@ private:
     bool move_player_to(Tile* tile);
 
     vec2 getFieldPosition(int x, int y);
-    void reloadMatrix();
 
     static Game* game;
 };

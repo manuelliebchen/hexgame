@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 # Project Name
 PROJECT(Hex-Game)
 
+set (CMAKE_CXX_STANDARD 17)
+
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -15,6 +17,8 @@ set( SOURCE
   ${SRC_DIR}/player.cpp
   ${SRC_DIR}/tile.cpp
   ${SRC_DIR}/util.cpp
+  ${SRC_DIR}/gui.cpp
+  ${SRC_DIR}/button.cpp
 )
 
 include_directories(

@@ -43,11 +43,23 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
         field = new Field(100 * three_sqrt_half, 100, 50, 30);
     }
 
+    gui                           = new GUI();
+    std::function<void()> binding = std::bind(&Field::forestify, field, 2);
+    gui->addButton(new Button(binding, glm::vec2(0, 0), glm::vec2(100, 50)));
+
     display_position = glm::vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
                                  -0.5f * field->getSize()[1] * 0.75f);
     zoom             = 50;
     player           = nullptr;
     hover            = nullptr;
+
+    map_mat =
+        glm::ortho((float)(-0.5 * window_size.x), (float)(0.5 * window_size.x),
+                   (float)(-0.5 * window_size.y), (float)(0.5 * window_size.y),
+                   1.0f, -1.0f);
+    map_mat = glm::scale(map_mat, glm::vec3(zoom, zoom, 1));
+    gui_mat = glm::ortho(0.0f, (float)window_size.x, (float)window_size.y, 0.0f,
+                         1.0f, -1.0f);
 
     int   glut_argc    = 1;
     char* glut_argv[1] = {(char*)"hexgame"};
@@ -92,6 +104,7 @@ void Game::draw()
     // std::clock_t c_start = std::clock();
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glLoadMatrixf(glm::value_ptr(map_mat));
     field->draw(display_position);
 
     if (player)
@@ -108,6 +121,9 @@ void Game::draw()
             field->mark(display_position, path);
         }
     }
+
+    glLoadMatrixf(glm::value_ptr(gui_mat));
+    gui->draw();
 
     glutSwapBuffers();
     // std::clock_t c_end = std::clock();
@@ -173,63 +189,78 @@ void Game::mouse(int button, int state, int x, int y)
         {
             display_position += (glm::vec2)(glm::vec2(x, -y) - click_position) *
                                 (float)(1 / zoom);
-            reloadMatrix();
         }
         else if (button == 3)
         {
             if (state == GLUT_DOWN)
                 return;
+            map_mat = glm::scale(map_mat, glm::vec3(1.1f, 1.1f, 1));
             zoom *= 1.1;
-            reloadMatrix();
         }
         else if (button == 4)
         {
             if (state == GLUT_DOWN)
                 return;
+            map_mat = glm::scale(map_mat, glm::vec3(1 / 1.1f, 1 / 1.1f, 1));
             zoom /= 1.1;
-            reloadMatrix();
         }
     }
     else if (state == GLUT_DOWN)
     {
-        click_position           = glm::vec2(x, -y);
-        glm::vec2 mouse_position = getFieldPosition(x, y);
-        Tile*     tile           = field->estimatTile(mouse_position);
-        if (tile)
+        if (button == GLUT_RIGHT_BUTTON && gui->click(glm::vec2(x, y)))
         {
-            // if( button == GLUT_MIDDLE_BUTTON) {
-            //   if( !tile->getFigure()){
-            //     tile->plant();
-            //   } else if ( dynamic_cast<Bush*>(tile->getFigure())) {
-            //     tile->clear();
-            //     tile->place( new Coin);
-            //   } else if ( dynamic_cast<Coin*>(tile->getFigure())) {
-            //     tile->clear();
-            //     player = new Player(tile);
-            //     tile->place( player);
-            //   } else {
-            //     if( tile->getFigure() == player) {
-            //       player = nullptr;
-            //     }
-            //     tile->clear();
-            //   }
-            // } else
-            if (button == GLUT_RIGHT_BUTTON)
+        }
+        else
+        {
+
+            click_position           = glm::vec2(x, -y);
+            glm::vec2 mouse_position = getFieldPosition(x, y);
+            Tile*     tile           = field->estimatTile(mouse_position);
+            if (tile)
             {
-                if (player)
+                if (button == GLUT_MIDDLE_BUTTON)
                 {
-                    if (tile == player->standing_on)
+                    if (!tile->getFigure())
                     {
-                        player = nullptr;
+                        tile->plant();
+                    }
+                    else if (dynamic_cast<Bush*>(tile->getFigure()))
+                    {
+                        tile->clear();
+                        tile->place(new Coin);
+                    }
+                    else if (dynamic_cast<Coin*>(tile->getFigure()))
+                    {
+                        tile->clear();
+                        player = new Player(tile);
+                        tile->place(player);
                     }
                     else
                     {
-                        move_player_to(tile);
+                        if (tile->getFigure() == player)
+                        {
+                            player = nullptr;
+                        }
+                        tile->clear();
                     }
                 }
-                else if (dynamic_cast<Player*>(tile->getFigure()))
+                else if (button == GLUT_RIGHT_BUTTON)
                 {
-                    player = dynamic_cast<Player*>(tile->getFigure());
+                    if (player)
+                    {
+                        if (tile == player->standing_on)
+                        {
+                            player = nullptr;
+                        }
+                        else
+                        {
+                            move_player_to(tile);
+                        }
+                    }
+                    else if (dynamic_cast<Player*>(tile->getFigure()))
+                    {
+                        player = dynamic_cast<Player*>(tile->getFigure());
+                    }
                 }
             }
         }
@@ -254,22 +285,14 @@ bool Game::move_player_to(Tile* tile)
     return true;
 }
 
-/**
- * Resets Projectoin Matrix for Rendering.
- */
-void Game::reloadMatrix()
-{
-    glLoadIdentity();
-    glOrtho(-0.5 * window_size.x, 0.5 * window_size.x, -0.5 * window_size.y,
-            0.5 * window_size.y, 1, -1);
-    glScalef(zoom, zoom, 1);
-}
-
 void Game::reshape(int width, int height)
 {
     glViewport(0, 0, width, height);
-    window_size = glm::vec2(width, height);
-    reloadMatrix();
+    glm::mat4 map_mat =
+        glm::ortho((float)(-0.5 * window_size.x), (float)(0.5 * window_size.x),
+                   (float)(-0.5 * window_size.y), (float)(0.5 * window_size.y),
+                   1.0f, -1.0f);
+    map_mat = glm::scale(map_mat, glm::vec3(50, 50, 1));
 }
 
 void Game::mousemotion(int x, int y)
