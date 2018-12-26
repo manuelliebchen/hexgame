@@ -9,6 +9,7 @@
 #define SRC_BUTTON_H_
 
 #include <GL/glut.h>
+#include <string>
 #include <functional>
 
 #include "glm/glm.hpp"
@@ -19,7 +20,8 @@
 class Button : public GuiElement
 {
 public:
-    Button(std::function<void()> function, glm::vec2 position, glm::vec2 size);
+    Button(std::basic_string<unsigned char> text,
+           std::function<void()> function, glm::vec2 position, glm::vec2 size);
     virtual ~Button();
 
     bool         click(glm::vec2 click_position) const;
@@ -27,6 +29,8 @@ public:
     virtual void draw() const;
 
 private:
+    std::basic_string<unsigned char> text;
+
     std::function<void()> function;
 
     glm::vec2 position;

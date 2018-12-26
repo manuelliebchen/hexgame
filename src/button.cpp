@@ -7,9 +7,10 @@
 
 #include "button.h"
 
-Button::Button(std::function<void()> function, glm::vec2 position,
+Button::Button(std::basic_string<unsigned char> text,
+               std::function<void()> function, glm::vec2 position,
                glm::vec2 size)
-    : function(function), position(position), size(size)
+    : text(text), function(function), position(position), size(size)
 {
 }
 
@@ -40,11 +41,24 @@ bool Button::in_region(glm::vec2 click_position) const
 
 void Button::draw() const
 {
-    glColor3ub(255, 255, 255);
+    glColor3ub(128, 128, 128);
     glBegin(GL_POLYGON);
     glVertex2f(position.x, position.y);
     glVertex2f(position.x + size.x, position.y);
     glVertex2f(position.x + size.x, position.y + size.y);
     glVertex2f(position.x, position.y + size.y);
     glEnd();
+
+    void* font = GLUT_BITMAP_TIMES_ROMAN_24;
+    glColor3ub(255, 255, 255);
+    int w = glutBitmapLength(font, text.c_str());
+    //    int h = glutBitmapHeight(font);
+    int h = 25;
+    glRasterPos2f(position.x + (size.x - w) * 0.5,
+                  position.y + (size.y - h) * 0.5);
+    int len = text.length();
+    for (int i = 0; i < len; i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, text[i]);
+    }
 };

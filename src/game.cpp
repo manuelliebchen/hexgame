@@ -45,7 +45,9 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
 
     gui                           = new GUI();
     std::function<void()> binding = std::bind(&Field::forestify, field, 2);
-    gui->addButton(new Button(binding, glm::vec2(0, 0), glm::vec2(100, 50)));
+    gui->addButton(new Button(
+        std::basic_string<unsigned char>((unsigned char*)("Forestify")),
+        binding, glm::vec2(20, 20), glm::vec2(80, 40)));
 
     display_position = glm::vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
                                  -0.5f * field->getSize()[1] * 0.75f);
