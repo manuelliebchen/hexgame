@@ -30,6 +30,19 @@ bool GUI::click(glm::vec2 position)
     return clicked;
 }
 
+bool GUI::in_region(glm::vec2 position) const
+{
+    bool clicked = false;
+    for (GuiElement* e : elements)
+    {
+        if (Button* b = dynamic_cast<Button*>(e))
+        {
+            clicked |= b->in_region(position);
+        }
+    }
+    return clicked;
+}
+
 void GUI::draw() const
 {
     for (const GuiElement* e : elements)

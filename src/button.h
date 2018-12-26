@@ -23,6 +23,7 @@ public:
     virtual ~Button();
 
     bool         click(glm::vec2 click_position) const;
+    bool         in_region(glm::vec2 click_position) const;
     virtual void draw() const;
 
 private:

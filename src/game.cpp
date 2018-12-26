@@ -183,34 +183,40 @@ void Game::keyboard(unsigned char c, int x, int y)
  */
 void Game::mouse(int button, int state, int x, int y)
 {
-    if (state == GLUT_UP)
+
+    if (gui->in_region(glm::vec2(x, y)))
     {
-        if (button == GLUT_LEFT_BUTTON)
+        if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON)
         {
-            display_position += (glm::vec2)(glm::vec2(x, -y) - click_position) *
-                                (float)(1 / zoom);
-        }
-        else if (button == 3)
-        {
-            if (state == GLUT_DOWN)
-                return;
-            map_mat = glm::scale(map_mat, glm::vec3(1.1f, 1.1f, 1));
-            zoom *= 1.1;
-        }
-        else if (button == 4)
-        {
-            if (state == GLUT_DOWN)
-                return;
-            map_mat = glm::scale(map_mat, glm::vec3(1 / 1.1f, 1 / 1.1f, 1));
-            zoom /= 1.1;
+            gui->click(glm::vec2(x, y));
         }
     }
-    else if (state == GLUT_DOWN)
+    else
     {
-        if (button == GLUT_RIGHT_BUTTON && gui->click(glm::vec2(x, y)))
+        if (state == GLUT_UP)
         {
+            if (button == GLUT_LEFT_BUTTON)
+            {
+                display_position +=
+                    (glm::vec2)(glm::vec2(x, -y) - click_position) *
+                    (float)(1 / zoom);
+            }
+            else if (button == 3)
+            {
+                if (state == GLUT_DOWN)
+                    return;
+                map_mat = glm::scale(map_mat, glm::vec3(1.1f, 1.1f, 1));
+                zoom *= 1.1;
+            }
+            else if (button == 4)
+            {
+                if (state == GLUT_DOWN)
+                    return;
+                map_mat = glm::scale(map_mat, glm::vec3(1 / 1.1f, 1 / 1.1f, 1));
+                zoom /= 1.1;
+            }
         }
-        else
+        else if (state == GLUT_DOWN)
         {
 
             click_position           = glm::vec2(x, -y);
@@ -297,20 +303,26 @@ void Game::reshape(int width, int height)
 
 void Game::mousemotion(int x, int y)
 {
-    display_position +=
-        (glm::vec2)(glm::vec2(x, -y) - click_position) * (float)(1 / zoom);
-    click_position = glm::vec2(x, -y);
-    glutPostRedisplay();
+    if (!gui->in_region(glm::vec2(x, y)))
+    {
+        display_position +=
+            (glm::vec2)(glm::vec2(x, -y) - click_position) * (float)(1 / zoom);
+        click_position = glm::vec2(x, -y);
+        glutPostRedisplay();
+    }
 }
 
 void Game::passivmouse(int x, int y)
 {
-    glm::vec2 mouse_position = getFieldPosition(x, y);
-    Tile*     tile           = field->estimatTile(mouse_position);
-    if (tile)
+    if (!gui->in_region(glm::vec2(x, y)))
     {
-        hover = tile;
-        glutPostRedisplay();
+        glm::vec2 mouse_position = getFieldPosition(x, y);
+        Tile*     tile           = field->estimatTile(mouse_position);
+        if (tile)
+        {
+            hover = tile;
+            glutPostRedisplay();
+        }
     }
 }
 

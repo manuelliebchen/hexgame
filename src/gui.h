@@ -22,6 +22,7 @@ public:
     virtual ~GUI();
 
     bool click(glm::vec2 position);
+    bool in_region(glm::vec2 position) const;
     void draw() const;
 
     void addButton(Button* b);

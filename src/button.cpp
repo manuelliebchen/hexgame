@@ -27,6 +27,17 @@ bool Button::click(glm::vec2 click_position) const
     return false;
 }
 
+bool Button::in_region(glm::vec2 click_position) const
+{
+    if (click_position.x > position.x &&
+        click_position.x < position.x + size.x &&
+        click_position.y > position.y && click_position.y < position.y + size.y)
+    {
+        return true;
+    }
+    return false;
+}
+
 void Button::draw() const
 {
     glColor3ub(255, 255, 255);
