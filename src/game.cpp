@@ -184,6 +184,7 @@ void Game::keyboard(unsigned char c, int x, int y)
 void Game::mouse(int button, int state, int x, int y)
 {
 
+    trag = false;
     if (gui->in_region(glm::vec2(x, y)))
     {
         if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON)
@@ -197,9 +198,9 @@ void Game::mouse(int button, int state, int x, int y)
         {
             if (button == GLUT_LEFT_BUTTON)
             {
-                display_position +=
-                    (glm::vec2)(glm::vec2(x, -y) - click_position) *
-                    (float)(1 / zoom);
+                //                display_position +=
+                //                    (glm::vec2)(glm::vec2(x, -y) - click_position) *
+                //                    (float)(1 / zoom);
             }
             else if (button == 3)
             {
@@ -269,6 +270,10 @@ void Game::mouse(int button, int state, int x, int y)
                     }
                 }
             }
+            if (button == GLUT_LEFT_BUTTON)
+            {
+                trag = true;
+            }
         }
     }
     glutPostRedisplay();
@@ -303,7 +308,7 @@ void Game::reshape(int width, int height)
 
 void Game::mousemotion(int x, int y)
 {
-    if (!gui->in_region(glm::vec2(x, y)))
+    if (trag)
     {
         display_position +=
             (glm::vec2)(glm::vec2(x, -y) - click_position) * (float)(1 / zoom);

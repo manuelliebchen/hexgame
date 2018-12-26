@@ -49,6 +49,8 @@ private:
     glm::mat4 map_mat;
     glm::mat4 gui_mat;
 
+    bool trag = false;
+
     Field*  field;
     Player* player;
     GUI*    gui;
