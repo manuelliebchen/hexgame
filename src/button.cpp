@@ -53,9 +53,9 @@ void Button::draw() const
     glColor3ub(255, 255, 255);
     int w = glutBitmapLength(font, text.c_str());
     //    int h = glutBitmapHeight(font);
-    int h = 25;
+    int h = 24;
     glRasterPos2f(position.x + (size.x - w) * 0.5,
-                  position.y + (size.y - h) * 0.5);
+                  position.y + (size.y + h) * 0.5);
     int len = text.length();
     for (int i = 0; i < len; i++)
     {

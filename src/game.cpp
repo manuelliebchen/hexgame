@@ -43,11 +43,15 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
         field = new Field(100 * three_sqrt_half, 100, 50, 30);
     }
 
-    gui                           = new GUI();
-    std::function<void()> binding = std::bind(&Field::forestify, field, 2);
+    gui = new GUI();
     gui->addButton(new Button(
         std::basic_string<unsigned char>((unsigned char*)("Forestify")),
-        binding, glm::vec2(20, 20), glm::vec2(80, 40)));
+        std::bind(&Field::forestify, field, 2), glm::vec2(20, 20),
+        glm::vec2(80, 40)));
+    //    gui->addButton(new Button(
+    //        std::basic_string<unsigned char>((unsigned char*)("Smothen")),
+    //        std::bind(&Field::smoothen, field, 2), glm::vec2(20, 80),
+    //        glm::vec2(80, 40)));
 
     display_position = glm::vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
                                  -0.5f * field->getSize()[1] * 0.75f);
@@ -301,11 +305,15 @@ bool Game::move_player_to(Tile* tile)
 void Game::reshape(int width, int height)
 {
     glViewport(0, 0, width, height);
-    glm::mat4 map_mat =
+    window_size = glm::vec2(width, height);
+    map_mat =
         glm::ortho((float)(-0.5 * window_size.x), (float)(0.5 * window_size.x),
                    (float)(-0.5 * window_size.y), (float)(0.5 * window_size.y),
                    1.0f, -1.0f);
-    map_mat = glm::scale(map_mat, glm::vec3(50, 50, 1));
+    map_mat = glm::scale(map_mat, glm::vec3(zoom, zoom, 1));
+
+    gui_mat = glm::ortho(0.0f, (float)window_size.x, (float)window_size.y, 0.0f,
+                         1.0f, -1.0f);
 }
 
 void Game::mousemotion(int x, int y)
@@ -335,10 +343,22 @@ void Game::passivmouse(int x, int y)
 
 glm::vec2 Game::getFieldPosition(int x, int y)
 {
-    glm::vec2 mouse_position(x, y);
+
+    glm::vec2 mouse_position =
+        glm::vec2(map_mat * glm::vec4(glm::vec2(x, y), 1, 1));
+
+    std::cout << std::to_string(mouse_position.x) + " " +
+                     std::to_string(mouse_position.y)
+              << std::endl;
+
+    mouse_position = glm::vec2(x, y);
     mouse_position -= glm::vec2(window_size.x * 0.5f, window_size.y * 0.5f);
     mouse_position.y = -mouse_position.y;
     mouse_position *= 1 / (float)zoom;
+
+    std::cout << std::to_string(mouse_position.x) + " " +
+                     std::to_string(mouse_position.y)
+              << std::endl;
     mouse_position -= display_position;
     return mouse_position;
 }
