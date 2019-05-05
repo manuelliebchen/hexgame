@@ -19,19 +19,11 @@ Field::Field(unsigned _width, unsigned _height, unsigned discrepancy,
     color_map = initializeColorMap();
     for (unsigned i = 0; i < size[0] * size[1]; ++i)
     {
-        int height = round(discrepancy * (rand<float>() - 0.5f)) + 1;
+        int height = round(discrepancy * (drand48() - 0.5f)) + 1;
         tiles[i].raise(height);
     }
     smoothen(smoothing);
     forestify(4);
-    Tile* tile = tiles + rand<unsigned int>() % size[0] +
-                 rand<unsigned int>() % size[1] * size[0];
-    while (!tile->isWalkable())
-    {
-        tile = tiles + rand<unsigned int>() % size[0] +
-               rand<unsigned int>() % size[1] * size[0];
-    }
-    tile->place(new Player(tile));
 }
 
 /**
@@ -147,7 +139,7 @@ void Field::forestify(unsigned amount)
         if (height > 1 && height <= 7)
         {
             tiles[i].clear();
-            if (rand<float>() > 0.7f)
+            if (drand48() > 0.7f)
             {
                 tiles[i].plant();
             }

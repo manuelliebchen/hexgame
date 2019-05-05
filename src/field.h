@@ -27,8 +27,8 @@
 class Field
 {
 private:
-    unsigned size[2];
-    Tile*    tiles;
+    glm::uvec2 size;
+    Tile*      tiles;
 
     std::map<int, Color> color_map;
 
@@ -59,7 +59,7 @@ public:
     std::vector<Tile*> getSurounding(Tile* position) const;
     float              heuristic(Tile* start, Tile* end) const;
 
-    const unsigned*             getSize() const { return size; };
+    const glm::ivec2            getSize() const { return size; };
     static std::map<int, Color> initializeColorMap();
 };
 

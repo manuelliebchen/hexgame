@@ -1,21 +1,5 @@
 #include "util.h"
 
-template <>
-unsigned int rand<unsigned int>()
-{
-    std::random_device                          rd;
-    std::uniform_int_distribution<unsigned int> dist(0, 1);
-    return dist(rd);
-};
-
-template <>
-float rand<float>()
-{
-    std::random_device                    rd;
-    std::uniform_real_distribution<float> dist(0, 1);
-    return dist(rd);
-};
-
 vec2 getHexCorner(int n)
 {
     switch (n % 6)

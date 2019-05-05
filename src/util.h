@@ -12,9 +12,6 @@
 
 typedef glm::vec2 vec2;
 
-template <typename T>
-T rand();
-
 vec2  getHexCorner(int n);
 float areaOfHexagon(float radius);
 

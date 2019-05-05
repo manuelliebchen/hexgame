@@ -43,6 +43,8 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
         field = new Field(100 * three_sqrt_half, 100, 50, 30);
     }
 
+    glm::uvec2 field_size = field->getSize();
+
     gui = new GUI();
     gui->addButton(new Button(
         std::basic_string<unsigned char>((unsigned char*)("Forestify")),
@@ -53,12 +55,22 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
     //        std::bind(&Field::smoothen, field, 2), glm::vec2(20, 80),
     //        glm::vec2(80, 40)));
 
-    display_position = glm::vec2(-0.5f * field->getSize()[0] * three_sqrt_half,
-                                 -0.5f * field->getSize()[1] * 0.75f);
+    display_position = glm::vec2(-0.5f * field_size.x * three_sqrt_half,
+                                 -0.5f * field_size.y * 0.75f);
     zoom             = 50;
-    player           = nullptr;
     hover            = nullptr;
 
+    // Placing Player
+    Tile* tile;
+    do
+    {
+        tile = field->tile_at(rand() % field_size.x, rand() % field_size.y);
+    } while (!tile->isWalkable());
+    tile->place(new Player(tile));
+    //    player = dynamic_cast<Player*>(tile->getFigure());
+    player = nullptr;
+
+    // Calculate Projektion Matrix
     map_mat =
         glm::ortho((float)(-0.5 * window_size.x), (float)(0.5 * window_size.x),
                    (float)(-0.5 * window_size.y), (float)(0.5 * window_size.y),
@@ -67,22 +79,21 @@ Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
     gui_mat = glm::ortho(0.0f, (float)window_size.x, (float)window_size.y, 0.0f,
                          1.0f, -1.0f);
 
-    int   glut_argc    = 1;
-    char* glut_argv[1] = {(char*)"hexgame"};
-    glutInit(&glut_argc, glut_argv);
-
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH |
                         GLUT_MULTISAMPLE);
-
-    glutInitWindowSize(window_size.x, window_size.y);
-    glutCreateWindow("The Hex Game");
-
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.4);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_POLYGON_SMOOTH);
+
+    int   glut_argc    = 1;
+    char* glut_argv[1] = {(char*)"hexgame"};
+    glutInit(&glut_argc, glut_argv);
+
+    glutInitWindowSize(window_size.x, window_size.y);
+    glutCreateWindow("The Hex Game");
 
     glClearColor(0.078f, 0.23f, 0.477f, 1.0f);
 
@@ -344,21 +355,10 @@ void Game::passivmouse(int x, int y)
 glm::vec2 Game::getFieldPosition(int x, int y)
 {
 
-    glm::vec2 mouse_position =
-        glm::vec2(map_mat * glm::vec4(glm::vec2(x, y), 1, 1));
-
-    std::cout << std::to_string(mouse_position.x) + " " +
-                     std::to_string(mouse_position.y)
-              << std::endl;
-
-    mouse_position = glm::vec2(x, y);
+    glm::vec2 mouse_position = glm::vec2(x, y);
     mouse_position -= glm::vec2(window_size.x * 0.5f, window_size.y * 0.5f);
     mouse_position.y = -mouse_position.y;
     mouse_position *= 1 / (float)zoom;
-
-    std::cout << std::to_string(mouse_position.x) + " " +
-                     std::to_string(mouse_position.y)
-              << std::endl;
     mouse_position -= display_position;
     return mouse_position;
 }
