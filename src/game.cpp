@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "cxxopts.hpp"
+
 /**
  * Singelton Instance.
  */
@@ -31,16 +33,35 @@ Game* Game::getInstance()
  */
 Game::Game(int* argc, char** argv, glm::vec2 size) : window_size(size)
 {
-    if ((*argc) >= 2)
+
+    try
     {
-        if (argv[1] == std::string("flat"))
+        cxxopts::Options options(argv[0], "Hexgame.");
+
+        options.allow_unrecognised_options().add_options()(
+            "h,help", "Print this Message")("f,flat", "Make Flat Map");
+
+        auto result = options.parse(*argc, argv);
+
+        if (result.count("help"))
+        {
+            std::cerr << options.help({"", "Group"}) << std::endl;
+            exit(0);
+        }
+        if (result.count("flat"))
         {
             field = new Field(100 * three_sqrt_half, 100);
         }
+        else
+        {
+            field = new Field(100 * three_sqrt_half, 100, 50, 30);
+        }
     }
-    else
+
+    catch (const cxxopts::OptionException& e)
     {
-        field = new Field(100 * three_sqrt_half, 100, 50, 30);
+        std::cout << "error parsing options: " << e.what() << std::endl;
+        exit(1);
     }
 
     glm::uvec2 field_size = field->getSize();
